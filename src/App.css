@@ -1,11 +1,24 @@
-.app-wrapper {
-  width: 100%;
-  display: grid;
+.App {
+  padding: 30px;
+  display: flex;
+}
 
-  grid-template-rows: 60px 1fr;
-  grid-template-columns: 2fr 10fr;
-  grid-gap: 0px;
-  grid-template-areas:
-     "h    h"
-     "n    c";
+.App > div {
+  margin-right: 50px;
+}
+
+.error {
+  border: red 1px solid;
+}
+
+.error-message {
+  color: red;
+}
+
+.active-filter {
+  background-color: aquamarine;
+}
+
+.is-done {
+  opacity: 0.5;
 }

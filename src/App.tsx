@@ -10,6 +10,7 @@ export type todolistsType = {
     filter: FilterValuesType
 }
 
+
 function App() {
     let todolistID1=v1();
     let todolistID2=v1();
@@ -58,7 +59,7 @@ function App() {
     }
 
     function addTask(todolistID: string, title: string) {
-        setTasks({...tasks,  [todolistID]:[{id: v1(), title: title, isDone: false}]})
+        setTasks({...tasks,  [todolistID]:[{id: v1(), title: title, isDone: false}, ...tasks[todolistID]]})
         // let task = {id: v1(), title: title, isDone: false};
         // let newTasks = [task, ...tasks];
         // setTasks(newTasks);

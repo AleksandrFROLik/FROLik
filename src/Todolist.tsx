@@ -1,6 +1,7 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {FilterValuesType} from './App';
 import {Button} from "./Button/Button";
+import {Input} from "./Input/Input";
 
 type TaskType = {
     id: string
@@ -38,7 +39,7 @@ export function Todolist({
         removeTodolist(todolistID)
     }
 
-    const addTask = (todolistID: string) => {
+    const addTask = () => {
         if (title.trim() !== "") {
             props.addTask(todolistID, title.trim());
             setTitle("");
@@ -47,21 +48,6 @@ export function Todolist({
         }
     }
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-    }
-
-
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
-        if (e.key === "Enter") {
-            addTask(todolistID);
-        }
-    }
-
-    // const onAllClickHandler = () => props.changeFilter(props.todolistID,"all");
-    // const onActiveClickHandler = () => props.changeFilter(props.todolistID,"active");
-    // const onCompletedClickHandler = () => props.changeFilter(props.todolistID,"completed");
     const superButton = (value: FilterValuesType) => {
         changeFilter(todolistID, value)
     }
@@ -69,46 +55,32 @@ export function Todolist({
 
 
     return <div>
-        <h3>{props.title} <Button name={'X'} callBack={onClickHandlerForRemoveTodolist}/></h3>
+        <h3>{props.title} <Button name={'X'} callBack={onClickHandlerForRemoveTodolist} className={"active-filter"}/></h3>
         <div>
-            <input value={title}
-                   onChange={onChangeHandler}
-                   onKeyPress={onKeyPressHandler}
-                   className={error ? "error" : ""}
-            />
-            <Button name={'+'} callBack={() => addTask(todolistID)}/>
-            {/*<button onClick={addTask}>+</button>*/}
+            <Input title={title} setTitle={setTitle} error={error} setError={setError} callBack={addTask}/>
+            <Button name={'+'} callBack={() => addTask()} className={"active-filter"}/>
             {error && <div className="error-message">{error}</div>}
         </div>
         <ul>
             {
                 tasks.map(t => {
-                    // const onClickHandler = () => props.removeTask(props.todolistID,t.id)
                     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
                         changeTaskStatus(todolistID, t.id, e.currentTarget.checked);
                     }
-
                     return <li key={t.id} className={t.isDone ? "is-done" : ""}>
                         <input type="checkbox"
                                onChange={onChangeHandler}
                                checked={t.isDone}/>
                         <span>{t.title}</span>
-                        <Button name={'X'} callBack={() => onClickHandler(t.id)}/>
-                        {/*<button onClick={onClickHandler}>x</button>*/}
+                        <Button name={'X'} callBack={() => onClickHandler(t.id)} className={"active-filter"}/>
                     </li>
                 })
             }
         </ul>
         <div>
-            <Button name={'All'} callBack={() => superButton('all')}/>
-            <Button name={'Active'} callBack={() => superButton('active')}/>
-            <Button name={'Completed'} callBack={() => superButton('completed')}/>
-            {/*<button className={props.filter === 'all' ? "active-filter" : ""}*/}
-            {/*        onClick={onAllClickHandler}>All</button>*/}
-            {/*<button className={props.filter === 'active' ? "active-filter" : ""}*/}
-            {/*    onClick={onActiveClickHandler}>Active</button>*/}
-            {/*<button className={props.filter === 'completed' ? "active-filter" : ""}*/}
-            {/*    onClick={onCompletedClickHandler}>Completed</button>*/}
+            <Button name={'All'} callBack={() => superButton('all') } className={filter === 'all' ? "active-filter" : ""}/>
+            <Button name={'Active'} callBack={() => superButton('active')} className={filter === 'active' ? "active-filter" : ""}/>
+            <Button name={'Completed'} callBack={() => superButton('completed')} className={filter === 'completed' ? "active-filter" : ""}/>
         </div>
     </div>
 }

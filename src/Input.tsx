@@ -5,8 +5,7 @@ type propsType = {
 
 
 }
-
-export const Input = (props:propsType) => {
+const Input = (props:propsType) => {
 
     let [title, setTitle] = useState("")
 

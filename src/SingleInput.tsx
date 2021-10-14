@@ -5,7 +5,7 @@ type propsSingleInput = {
     setTitle: (title: string)=>void
     callBack: ()=>void
 }
-export const SingleInput =({title, setTitle, callBack, ...props}:propsSingleInput)=> {
+const SingleInput =({title, setTitle, callBack, ...props}:propsSingleInput)=> {
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }

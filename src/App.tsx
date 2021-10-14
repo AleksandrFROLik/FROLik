@@ -32,6 +32,9 @@ function App() {
         ]
     });
 
+    const removeTodolist = (todolistID: string) => {
+        setTodolists(todolists.filter(f => f.id !== todolistID))
+    }
 
     function removeTask(todolistID: string, id: string) {
         setTasks({...tasks, [todolistID]: tasks[todolistID].filter(f => f.id !== id)})
@@ -42,13 +45,13 @@ function App() {
 
     function addTask(todolistID: string, title: string) {
         let task = {id: v1(), title: title, isDone: false};
-        setTasks({...tasks,[todolistID]:[...tasks[todolistID],task]})
+        setTasks({...tasks, [todolistID]: [task, ...tasks[todolistID]]})
         // let newTasks = [task, ...tasks];
         // setTasks(newTasks);
     }
 
-    function changeStatus(todolistID: string,taskId: string, isDone: boolean) {
-        setTasks({...tasks,[todolistID]:tasks[todolistID].map(m=>m.id===taskId ? {...m,isDone: isDone} : m)})
+    function changeStatus(todolistID: string, taskId: string, isDone: boolean) {
+        setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskId ? {...m, isDone: isDone} : m)})
         // let task = tasks.find(t => t.id === taskId);
         // if (task) {
         //     task.isDone = isDone;
@@ -70,10 +73,10 @@ function App() {
                 let tasksForTodolist = tasks[m.id];
 
                 if (m.filter === "active") {
-                    tasksForTodolist = tasks[m.id].filter(t => t.isDone === false);
+                    tasksForTodolist = tasks[m.id].filter(t => !t.isDone);
                 }
                 if (m.filter === "completed") {
-                    tasksForTodolist = tasks[m.id].filter(t => t.isDone === true);
+                    tasksForTodolist = tasks[m.id].filter(t => t.isDone);
                 }
                 return (
                     <Todolist
@@ -86,6 +89,7 @@ function App() {
                         addTask={addTask}
                         changeTaskStatus={changeStatus}
                         filter={m.filter}
+                        removeTodolist={removeTodolist}
                     />
                 )
             })}

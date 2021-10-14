@@ -4,7 +4,7 @@ import React from "react";
      callBack: ()=>void
      setTitle: (title:string)=>void
 }
-export const Button=({callBack, setTitle, ...props}:propsButtonType)=> {
+const Button=({callBack, setTitle, ...props}:propsButtonType)=> {
 
     const onClickHandler = () => {
         callBack()

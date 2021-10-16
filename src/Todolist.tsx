@@ -1,9 +1,10 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {useState} from 'react';
 import {FilterValuesType} from './App';
-import {Button} from "./Button/Button";
-import {Input} from "./Input/Input";
+import {Button} from "./components/Button/Button";
+import {Input} from "./components/Input/Input";
+import {MapTasks} from "./components/MapTasks/MapTasks";
 
-type TaskType = {
+export type TaskType = {
     id: string
     title: string
     isDone: boolean
@@ -53,34 +54,22 @@ export function Todolist({
     }
     const onClickHandler = (taskId: string) => removeTask(todolistID, taskId)
 
-
     return <div>
-        <h3>{props.title} <Button name={'X'} callBack={onClickHandlerForRemoveTodolist} className={"active-filter"}/></h3>
+        <h3>{props.title} <Button name={'X'} callBack={onClickHandlerForRemoveTodolist}/></h3>
         <div>
             <Input title={title} setTitle={setTitle} error={error} setError={setError} callBack={addTask}/>
-            <Button name={'+'} callBack={() => addTask()} className={"active-filter"}/>
+            <Button name={'+'} callBack={() => addTask()}/>
             {error && <div className="error-message">{error}</div>}
         </div>
-        <ul>
-            {
-                tasks.map(t => {
-                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                        changeTaskStatus(todolistID, t.id, e.currentTarget.checked);
-                    }
-                    return <li key={t.id} className={t.isDone ? "is-done" : ""}>
-                        <input type="checkbox"
-                               onChange={onChangeHandler}
-                               checked={t.isDone}/>
-                        <span>{t.title}</span>
-                        <Button name={'X'} callBack={() => onClickHandler(t.id)} className={"active-filter"}/>
-                    </li>
-                })
-            }
-        </ul>
+        <MapTasks tasks={tasks}
+                  changeTaskStatus={changeTaskStatus}
+                  todolistID={todolistID}
+                  onClickHandler={onClickHandler}
+        />
         <div>
-            <Button name={'All'} callBack={() => superButton('all') } className={filter === 'all' ? "active-filter" : ""}/>
-            <Button name={'Active'} callBack={() => superButton('active')} className={filter === 'active' ? "active-filter" : ""}/>
-            <Button name={'Completed'} callBack={() => superButton('completed')} className={filter === 'completed' ? "active-filter" : ""}/>
+            <Button name={'All'} callBack={() => superButton('all')} filter={filter}/>
+            <Button name={'Active'} callBack={() => superButton('active')} filter={filter}/>
+            <Button name={'Completed'} callBack={() => superButton('completed')} filter={filter}/>
         </div>
     </div>
 }

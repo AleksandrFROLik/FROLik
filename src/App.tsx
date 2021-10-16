@@ -7,8 +7,8 @@ export type FilterValuesType = "all" | "active" | "completed";
 export  type todoListsType = { id: string, title: string, filter: FilterValuesType };
 
 function App() {
-    let todolistID1 = v1();
 
+    let todolistID1 = v1();
     let todolistID2 = v1();
 
     let [todoLists, setTodoLists] = useState<Array<todoListsType>>([

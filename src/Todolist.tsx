@@ -39,7 +39,6 @@ export function Todolist({
     const onClickHandlerForRemoveTodolist = () => {
         removeTodolist(todolistID)
     }
-
     const addTask = () => {
         if (title.trim() !== "") {
             props.addTask(todolistID, title.trim());
@@ -48,7 +47,6 @@ export function Todolist({
             setError("Title is required");
         }
     }
-
     const superButton = (value: FilterValuesType) => {
         changeFilter(todolistID, value)
     }
@@ -67,9 +65,9 @@ export function Todolist({
                   onClickHandler={onClickHandler}
         />
         <div>
-            <Button name={'All'} callBack={() => superButton('all')} filter={filter}/>
-            <Button name={'Active'} callBack={() => superButton('active')} filter={filter}/>
-            <Button name={'Completed'} callBack={() => superButton('completed')} filter={filter}/>
+            <Button name={'all'} callBack={() => superButton('All')} filter={filter}/>
+            <Button name={'active'} callBack={() => superButton('Active')} filter={filter}/>
+            <Button name={'completed'} callBack={() => superButton('Completed')} filter={filter}/>
         </div>
     </div>
 }

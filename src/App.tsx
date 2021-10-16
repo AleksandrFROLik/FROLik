@@ -3,7 +3,7 @@ import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid';
 
-export type FilterValuesType = "all" | "active" | "completed";
+export type FilterValuesType = "All" | "Active" | "Completed";
 export  type todoListsType = { id: string, title: string, filter: FilterValuesType };
 
 function App() {
@@ -12,8 +12,8 @@ function App() {
     let todolistID2 = v1();
 
     let [todoLists, setTodoLists] = useState<Array<todoListsType>>([
-        {id: todolistID1, title: 'What to learn', filter: 'all'},
-        {id: todolistID2, title: 'What to buy', filter: 'all'},
+        {id: todolistID1, title: 'What to learn', filter: 'All'},
+        {id: todolistID2, title: 'What to buy', filter: 'All'},
     ])
 
     let [tasks, setTasks] = useState({
@@ -43,19 +43,17 @@ function App() {
         // let filteredTasks = tasks.filter(t => t.id != id);
         // setTasks(filteredTasks);
     }
-
     function addTask(todolistID: string, title: string) {
         let task = {id: v1(), title: title, isDone: false};
         setTasks({...tasks, [todolistID]: [task, ...tasks[todolistID]]})
         // let newTasks = [task, ...tasks];
         // setTasks(newTasks);
     }
-
     function changeStatus(todolistID: string, taskId: string, isDone: boolean) {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskId ? {...m, isDone: isDone} : m)})
    }
-
     function changeFilter(todolistID: string, value: FilterValuesType) {
+
         setTodoLists(todoLists.map(m => m.id === todolistID ? {...m, filter: value} : m))
     }
 
@@ -64,10 +62,10 @@ function App() {
             {todoLists.map(m => {
                 let tasksForTodolist = tasks[m.id];
 
-                if (m.filter === "active") {
+                if (m.filter === "Active") {
                     tasksForTodolist = tasks[m.id].filter(t => !t.isDone);
                 }
-                if (m.filter === "completed") {
+                if (m.filter === "Completed") {
                     tasksForTodolist = tasks[m.id].filter(t => t.isDone);
                 }
                 return (

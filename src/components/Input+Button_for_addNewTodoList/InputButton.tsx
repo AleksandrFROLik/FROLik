@@ -1,10 +1,10 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type InputButtonType = {
-    callBack:(titleForTodoList:string)=>void
+    callBack: (titleForTodoList: string) => void
 }
 
-export const InputButton =({callBack}:InputButtonType)=>{
+export const InputButton = ({callBack}: InputButtonType) => {
 
     let [newTitle, setNewTitle] = useState("")
     let [alarm, setAlarm] = useState<string | null>(null)
@@ -18,18 +18,17 @@ export const InputButton =({callBack}:InputButtonType)=>{
             setAlarm("Title is required");
         }
     }
-
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTitle(e.currentTarget.value)
     }
-
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setAlarm(null);
         if (e.key === 'Enter') {
             addTask();
         }
     }
-    return(
+
+    return (
         <div>
             <input value={newTitle}
                    onChange={onChangeHandler}

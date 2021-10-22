@@ -33,44 +33,42 @@ function App() {
             {id: v1(), title: "GraphQL2", isDone: false},
         ]
     });
-
-    const removeTodolist = (todolistID: string) => {
-        setTodoLists(todoLists.filter(f => f.id !== todolistID))
+    const addNewTodoList = (titleForTodoList: string) => {
+        let newTodoListID = v1()
+        setTodoLists([{id: newTodoListID, title: titleForTodoList, filter: 'All'}, ...todoLists])
+        setTasks({[newTodoListID]: [], ...tasks})
     }
-
-    function removeTask(todolistID: string, id: string) {
-        setTasks({...tasks, [todolistID]: tasks[todolistID].filter(f => f.id !== id)})
-
-        // let filteredTasks = tasks.filter(t => t.id != id);
-        // setTasks(filteredTasks);
-    }
-    function addTask(todolistID: string, title: string) {
+    const addTask=(todolistID: string, title: string)=> {
         let task = {id: v1(), title: title, isDone: false};
         setTasks({...tasks, [todolistID]: [task, ...tasks[todolistID]]})
     }
-    function changeStatus(todolistID: string, taskId: string, isDone: boolean) {
+    const removeTodolist = (todolistID: string) => {
+        setTodoLists(todoLists.filter(f => f.id !== todolistID))
+    }
+    const removeTask=(todolistID: string, id: string)=> {
+        setTasks({...tasks, [todolistID]: tasks[todolistID].filter(f => f.id !== id)})
+    }
+    const changeStatus=(todolistID: string, taskId: string, isDone: boolean)=> {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskId ? {...m, isDone: isDone} : m)})
-   }
-    function changeFilter(todolistID: string, value: FilterValuesType) {
+    }
+    const changeFilter =(todolistID: string, value: FilterValuesType)=> {
         setTodoLists(todoLists.map(m => m.id === todolistID ? {...m, filter: value} : m))
     }
-    const addNewTodoList =(titleForTodoList:string)=>{
-        let newTodoListID = v1()
-        setTodoLists([{id: newTodoListID, title:titleForTodoList, filter: 'All'},...todoLists])
-        setTasks({ [newTodoListID]:[], ...tasks})
+    const upDateTasks = (newTaskTitle: string, todolistID: string, taskId: string) => {
+        setTasks({
+            ...tasks,
+            [todolistID]: tasks[todolistID].map(m => m.id === taskId ? {...m, title: newTaskTitle} : m)
+        })
     }
-    const upDateTasks = (newTaskTitle:string, todolistID: string, taskId: string) => {
-        console.log(newTaskTitle)
-        setTasks({...tasks, [todolistID]:tasks[todolistID].map(m=>m.id === taskId ? {...m, title:newTaskTitle}: m)})
+    const upDateTodoList = (title: string, todolistID: string) => {
+        setTodoLists(todoLists.map(m => m.id === todolistID ? {...m, title} : m))
     }
 
     return (
-
         <div className="App">
             <InputButton callBack={addNewTodoList}/>
             {todoLists.map(m => {
                 let tasksForTodolist = tasks[m.id];
-
                 if (m.filter === "Active") {
                     tasksForTodolist = tasks[m.id].filter(t => !t.isDone);
                 }
@@ -90,6 +88,7 @@ function App() {
                         filter={m.filter}
                         removeTodolist={removeTodolist}
                         upDateTasks={upDateTasks}
+                        upDateTodoList={upDateTodoList}
                     />
                 )
             })}

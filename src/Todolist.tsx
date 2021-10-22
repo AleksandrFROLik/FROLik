@@ -3,6 +3,7 @@ import {FilterValuesType} from './App';
 import {Button} from "./components/Button/Button";
 import {Input} from "./components/Input/Input";
 import {MapTasks} from "./components/MapTasks/MapTasks";
+import {EditAbleSpan} from "./components/EditAbleSpan/EditAbleSpan";
 
 export type TaskType = {
     id: string
@@ -20,7 +21,8 @@ type PropsType = {
     changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean) => void
     filter: FilterValuesType
     removeTodolist: (todolistID: string) => void
-    upDateTasks: (newTaskTitle:string, todolistID: string, taskId: string) => void
+    upDateTasks: (newTaskTitle: string, todolistID: string, taskId: string) => void
+    upDateTodoList: (title: string, todolistID: string) => void
 }
 
 export function Todolist({
@@ -32,6 +34,7 @@ export function Todolist({
                              filter,
                              removeTask,
                              upDateTasks,
+                             upDateTodoList,
                              ...props
                          }: PropsType) {
 
@@ -53,23 +56,42 @@ export function Todolist({
         changeFilter(todolistID, value)
     }
     const onClickHandler = (taskId: string) => removeTask(todolistID, taskId)
-    const addNewTitleTask = (newTaskTitle:string,taskId:string) => {
-        upDateTasks(newTaskTitle, todolistID, taskId)
+    const addNewTitleTask = (newTitleTask: string, taskId: string) => {
+        if (newTitleTask.trim() !== "") {
+            upDateTasks(newTitleTask.trim(), todolistID, taskId);
+        } else {
+            setError("Title is required");
+        }
+    }
+    const addNewTitleTodoList = (newTitleTodoList: string) => {
+        if (newTitleTodoList.trim() !== "") {
+            upDateTodoList(newTitleTodoList, todolistID);
+        } else {
+            setError("Title is required");
+        }
     }
 
     return <div>
-        <h3>{props.title} <Button name={'X'} callBack={onClickHandlerForRemoveTodolist}/></h3>
+        <h3>
+            <EditAbleSpan
+                mapTitle={props.title}
+                callBack={addNewTitleTodoList}
+            />
+            <Button name={'X'}
+                    callBack={onClickHandlerForRemoveTodolist}/>
+        </h3>
         <div>
             <Input title={title} setTitle={setTitle} error={error} setError={setError} callBack={addTask}/>
             <Button name={'+'} callBack={addTask}/>
             {error && <div className="error-message">{error}</div>}
         </div>
-        <MapTasks tasks={tasks}
-                  changeTaskStatus={changeTaskStatus}
-                  todolistID={todolistID}
-                  onClickHandler={onClickHandler}
-                  addNewTitleTask={addNewTitleTask}
-
+        <MapTasks
+            title={title}
+            tasks={tasks}
+            changeTaskStatus={changeTaskStatus}
+            todolistID={todolistID}
+            onClickHandler={onClickHandler}
+            addNewTitleTask={addNewTitleTask}
         />
         <div>
             <Button name={'All'} callBack={() => superButton('All')} filter={filter}/>

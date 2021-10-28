@@ -4,8 +4,6 @@ import {Type} from "../../App";
 
 export const TaskReducer = (state: Type, action: ActionsType): Type => {
 
-    let newTodoListID = v1()
-
     switch (action.type) {
         case "ADD-TASK": {
             let task = {id: v1(), title: action.title, isDone: false};
@@ -26,7 +24,7 @@ export const TaskReducer = (state: Type, action: ActionsType): Type => {
             })
         }
         case "ADD-NEW-TODOLIST": {
-            return ({[newTodoListID]: [], ...state})
+            return ({[action.newTodoListID]: [], ...state})
         }
         default:
             return state
@@ -80,8 +78,9 @@ export const upDateTasksAC = (newTaskTitle: string, todolistID: string, taskId: 
 
 type AddNewTodoListACType = ReturnType<typeof addNewTodoListAC>
 
-export const addNewTodoListAC = ()=> {
+export const addNewTodoListAC = (newTodoListID:string)=> {
     return{
         type:"ADD-NEW-TODOLIST",
+        newTodoListID,
     } as const
 }

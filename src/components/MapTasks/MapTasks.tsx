@@ -2,6 +2,8 @@ import React, {ChangeEvent} from "react";
 import {Button} from "../Button/Button";
 import {TaskType} from "../../Todolist";
 import {EditAbleSpan} from "../EditAbleSpan/EditAbleSpan";
+import {IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 
 type MapTasksType = {
@@ -11,8 +13,6 @@ type MapTasksType = {
     todolistID: string
     onClickHandler: (taskId: string) => void
     addNewTitleTask: (newTaskTitle: string, todolistID: string) => void
-
-
 }
 
 export const MapTasks = ({
@@ -25,22 +25,27 @@ export const MapTasks = ({
     const addTaskHandler = (newTaskTitle: string, id: string) => {
         addNewTitleTask(newTaskTitle, id)
     }
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>, id:string) => {
+        changeTaskStatus(todolistID, id, e.currentTarget.checked);
+    }
     return (
         <ul>
             {
                 tasks.map(t => {
-                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                        changeTaskStatus(todolistID, t.id, e.currentTarget.checked);
-                    }
+
                     return <li key={t.id} className={t.isDone ? "is-done" : ""}>
                         <input type="checkbox"
-                               onChange={onChangeHandler}
+                               onChange={(e: ChangeEvent<HTMLInputElement>)=>onChangeHandler(e, t.id)}
                                checked={t.isDone}/>
                         <EditAbleSpan mapTitle={t.title}
                                       callBack={(newTaskTitle: string) => addTaskHandler(newTaskTitle, t.id)}
                         />
                         <Button name={'X'}
                                 callBack={() => onClickHandler(t.id)}/>
+                        {/*<IconButton aria-label="delete">*/}
+                        {/*    <Delete callBack={() => onClickHandler(t.id)}/>*/}
+                        {/*</IconButton>*/}
+
                     </li>
                 })
             }

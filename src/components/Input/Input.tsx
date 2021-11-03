@@ -1,6 +1,8 @@
-import React, {ChangeEvent, KeyboardEvent} from "react";
+import React, {ChangeEvent, KeyboardEvent, DetailedHTMLProps, InputHTMLAttributes,} from "react";
 
-type InputType = {
+type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+
+type InputType = DefaultInputPropsType & {
     title: string
     setTitle: (value: string) => void
     error: string | null
@@ -8,16 +10,22 @@ type InputType = {
     callBack: () => void
 }
 
-export const Input = ({title, setTitle, error, setError, callBack}: InputType) => {
+export const Input: React.FC<InputType> = (
+    {
+        title, setTitle, error, setError, callBack, onChange, onKeyPress, ...restProps
+    }
+) => {
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
+        onChange && onChange(e);
+        setTitle && setTitle(e.currentTarget.value)
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        onKeyPress && onKeyPress(e);
         setError('');
-        if (e.key === "Enter") {
-            callBack();
-        }
+        callBack
+        && e.key === "Enter"
+        && callBack()
     }
 
     return (

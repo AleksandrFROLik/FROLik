@@ -24,12 +24,11 @@ export type TodoListType = { id: string, title: string, filter: FilterValuesType
 export type TasksType = { [key: string]: Array<TaskType> }
 export type TodoListsType = Array<TodoListType>
 
-
 function App() {
 
-    let dispatch = useDispatch()
     let todoLists = useSelector<rootReducerType, TodoListsType>(state => state.todoLists)
     let tasks = useSelector<rootReducerType, TasksType>(state => state.tasks)
+    let dispatch = useDispatch()
 
     const addNewTodoList = (titleForTodoList: string) => {
         dispatch(addNewTodolistAC(titleForTodoList))

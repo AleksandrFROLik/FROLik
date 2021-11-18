@@ -70,7 +70,7 @@ export function Todolist({
             setError("Title is required");
         }
     }
-    console.log(tasks)
+
     return <div>
         <h3>
             <EditAbleSpan

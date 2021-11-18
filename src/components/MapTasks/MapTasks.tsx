@@ -4,7 +4,6 @@ import {TaskType} from "../../Todolist";
 import {EditAbleSpan} from "../EditAbleSpan/EditAbleSpan";
 
 
-
 type MapTasksType = {
     title: string
     tasks: Array<TaskType>
@@ -21,25 +20,29 @@ export const MapTasks = ({
                              onClickHandler,
                              addNewTitleTask
                          }: MapTasksType) => {
-    const addTaskHandler = (newTaskTitle: string, id: string) => {
-        addNewTitleTask(newTaskTitle, id)
+
+
+
+    const addTaskHandler = (newTaskTitle: string, taskID: string) => {
+        addNewTitleTask(newTaskTitle, taskID)
+    }
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>, taskID:string) => {
+        changeTaskStatus(todolistID, taskID, e.currentTarget.checked);
     }
     return (
         <ul>
             {
-                tasks.map(t => {
-                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                        changeTaskStatus(todolistID, t.id, e.currentTarget.checked);
-                    }
-                    return <li key={t.id} className={t.isDone ? "is-done" : ""}>
+                tasks.map(tasks => {
+
+                    return <li key={tasks.id} className={tasks.isDone ? "is-done" : ""}>
                         <input type="checkbox"
-                               onChange={onChangeHandler}
-                               checked={t.isDone}/>
-                        <EditAbleSpan mapTitle={t.title}
-                                      callBack={(newTaskTitle: string) => addTaskHandler(newTaskTitle, t.id)}
+                               onChange={(e)=>onChangeHandler(e, tasks.id)}
+                               checked={tasks.isDone}/>
+                        <EditAbleSpan mapTitle={tasks.title}
+                                      callBack={(newTaskTitle: string) => addTaskHandler(newTaskTitle, tasks.id)}
                         />
                         <Button name={'X'}
-                                callBack={() => onClickHandler(t.id)}/>
+                                callBack={() => onClickHandler(tasks.id)}/>
                     </li>
                 })
             }

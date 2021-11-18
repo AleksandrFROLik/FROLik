@@ -2,22 +2,22 @@ import React from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {InputButton} from "./components/Input+Button_for_addNewTodoList/InputButton";
+
+
+import {useDispatch, useSelector} from "react-redux";
+import {rootReducerType} from "./components/reducer/store";
 import {
     addTaskAC,
     changeStatusAC,
     removeTaskAC,
-    upDateTasksAC,
-} from "./components/reducer/TaskReducer";
-
+    upDateTasksAC
+} from "./components/reducer/tasksActions";
 import {
     addNewTodolistAC,
     changeFilterAC,
     removeTodolistAC,
-    upDateTodoListAC,
-} from "./components/reducer/TodolistReducer";
-
-import {useDispatch, useSelector} from "react-redux";
-import {rootReducerType} from "./components/reducer/store";
+    upDateTodoListAC
+} from "./components/reducer/todolistReducer";
 
 export type FilterValuesType = "All" | "Active" | "Completed";
 export type TodoListType = { id: string, title: string, filter: FilterValuesType };

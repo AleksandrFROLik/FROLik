@@ -9,7 +9,7 @@ let InitialState: TodoListsType = [
     {id: todoListID2, title: "What to buy", filter: "All"}
 ]
 
-export const TodoListReducer = (state: TodoListsType = InitialState, action: TodoListReducerType): TodoListsType => {
+export const TodolistReducer = (state: TodoListsType = InitialState, action: TodoListReducerType): TodoListsType => {
     switch (action.type) {
         case 'ADD-NEW-TODOLIST':
             return [...state, {id: action.todoListID, title: action.titleForTodoList, filter: "All"}]

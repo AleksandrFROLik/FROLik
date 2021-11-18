@@ -7,36 +7,32 @@ import {
     changeStatusAC,
     removeTaskAC,
     upDateTasksAC,
-
 } from "./components/reducer/TaskReducer";
+
 import {
     addNewTodolistAC,
     changeFilterAC,
     removeTodolistAC,
     upDateTodoListAC,
-
-
 } from "./components/reducer/TodolistReducer";
+
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./components/reducer/store";
 
-
 export type FilterValuesType = "All" | "Active" | "Completed";
-export type todoListsType = { id: string, title: string, filter: FilterValuesType };
+export type TodoListType = { id: string, title: string, filter: FilterValuesType };
 export type TasksType = { [key: string]: Array<TaskType> }
-export type TodoListType = todoListsType[]
+export type TodoListsType = Array<TodoListType>
 
 
 function App() {
 
     let dispatch = useDispatch()
-    let todoLists = useSelector<rootReducerType, TodoListType>(state => state.todoLists)
+    let todoLists = useSelector<rootReducerType, TodoListsType>(state => state.todoLists)
     let tasks = useSelector<rootReducerType, TasksType>(state => state.tasks)
 
     const addNewTodoList = (titleForTodoList: string) => {
-        // let newTodoListID = v1()
         dispatch(addNewTodolistAC(titleForTodoList))
-        // dispatch(addNewTodoListInTasksAC(newTodoListID))
     }
     const addTask = (todolistID: string, title: string) => {
         dispatch(addTaskAC(todolistID, title))
@@ -89,7 +85,7 @@ function App() {
                 )
             })}
 
-        </div> //
+        </div>
     );
 }
 

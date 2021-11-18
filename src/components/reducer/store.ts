@@ -4,7 +4,7 @@ import {TodoListReducer} from "./TodolistReducer";
 
 let rootReducer = combineReducers ({
     tasks: TaskReducer,
-    todoLists: TodoListReducer
+    todoLists: TodoListReducer,
 })
 
 export type rootReducerType = ReturnType<typeof rootReducer>

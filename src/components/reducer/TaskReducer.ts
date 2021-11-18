@@ -1,29 +1,25 @@
 import {v1} from "uuid";
-
 import {TasksType} from "../../App";
-import {AddNewTodolistACType} from "./TodolistReducer";
+import {AddNewTodolistACType, RemoveTodolistACType, todoListID1, todoListID2} from "./TodolistReducer";
 
-let todolistId1 = v1()
-let todolistId2 = v1()
 
-const InitialState: TasksType = {
-    [todolistId1]: [
+let InitialState: TasksType = {
+    [todoListID1]: [
         {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true}
+        {id: v1(), title: "JS", isDone: true},
     ],
-    [todolistId2]: [
+    [todoListID2]: [
         {id: v1(), title: "Milk", isDone: true},
-        {id: v1(), title: "React Book", isDone: true}
-    ]
+        {id: v1(), title: "React Book", isDone: true},
+    ],
 };
+
 
 export const TaskReducer = (state: TasksType = InitialState, action: ActionsType): TasksType => {
 
     switch (action.type) {
         case "ADD-TASK": {
-            let task = {id: v1(), title: action.title, isDone: false};
-
-            return {...state, [action.todolistID]: [task, ...state[action.todolistID]]}
+            return {...state, [action.todolistID]: [{id: v1(), title: action.title, isDone: false}, ...state[action.todolistID]]}
         }
         case "REMOVE-TASK": {
             return ({...state, [action.todolistID]: state[action.todolistID].filter(f => f.id !== action.taskID)})
@@ -49,6 +45,12 @@ export const TaskReducer = (state: TasksType = InitialState, action: ActionsType
         case "ADD-NEW-TODOLIST": {
             return ({[action.todoListID]: [], ...state})
         }
+
+        case 'REMOVE-TODOLiST': {
+            const stateCopy = {...state};
+            delete stateCopy[action.todolistID]
+            return stateCopy;
+        }
         default:
             return state
     }
@@ -59,6 +61,7 @@ type ActionsType = AddTaskACType
     | ChangeStatusACType
     | UpDateTasksAC
     | AddNewTodolistACType
+    |RemoveTodolistACType
 
 type AddTaskACType = ReturnType<typeof addTaskAC>
 

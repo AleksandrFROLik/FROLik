@@ -14,7 +14,7 @@ export type TaskType = {
 type PropsType = {
     todolistID: string
     title: string
-    tasks: Array<TaskType>
+    tasks:  Array<TaskType>
     removeTask: (todolistID: string, taskId: string) => void
     changeFilter: (todolistID: string, value: FilterValuesType) => void
     addTask: (todolistID: string, title: string) => void
@@ -70,7 +70,7 @@ export function Todolist({
             setError("Title is required");
         }
     }
-
+    console.log(tasks)
     return <div>
         <h3>
             <EditAbleSpan

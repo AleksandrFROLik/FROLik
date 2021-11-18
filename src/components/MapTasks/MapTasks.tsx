@@ -4,6 +4,7 @@ import {TaskType} from "../../Todolist";
 import {EditAbleSpan} from "../EditAbleSpan/EditAbleSpan";
 
 
+
 type MapTasksType = {
     title: string
     tasks: Array<TaskType>

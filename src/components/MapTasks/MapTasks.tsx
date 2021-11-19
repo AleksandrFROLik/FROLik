@@ -2,32 +2,38 @@ import React, {ChangeEvent} from "react";
 import {Button} from "../Button/Button";
 import {TaskType} from "../../Todolist";
 import {EditAbleSpan} from "../EditAbleSpan/EditAbleSpan";
+import {useDispatch, useSelector} from "react-redux";
+import {rootReducerType} from "../reducer/store";
+import {changeStatusAC} from "../reducer/tasksActions";
 
 
 type MapTasksType = {
     title: string
-    tasks: Array<TaskType>
-    changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean) => void
+    // changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean) => void
     todolistID: string
     onClickHandler: (taskId: string) => void
     addNewTitleTask: (newTaskTitle: string, todolistID: string) => void
 }
 
 export const MapTasks = ({
-                             tasks,
-                             changeTaskStatus,
+                             // changeTaskStatus,
                              todolistID,
                              onClickHandler,
                              addNewTitleTask
                          }: MapTasksType) => {
 
 
+    const tasks = useSelector<rootReducerType, Array<TaskType>>(state => state.tasks[todolistID])
+    const dispatch  = useDispatch()
+
 
     const addTaskHandler = (newTaskTitle: string, taskID: string) => {
         addNewTitleTask(newTaskTitle, taskID)
+
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>, taskID:string) => {
-        changeTaskStatus(todolistID, taskID, e.currentTarget.checked);
+        // changeTaskStatus(todolistID, taskID, e.currentTarget.checked);
+        dispatch(changeStatusAC(todolistID, taskID, e.currentTarget.checked))
     }
     return (
         <ul>

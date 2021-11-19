@@ -1,18 +1,18 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {useDispatch} from "react-redux";
+import {addNewTodolistAC} from "../reducer/todolistReducer";
 
-type InputButtonType = {
-    callBack: (titleForTodoList: string) => void
-}
 
-export const InputButton = ({callBack}: InputButtonType) => {
+export const InputButton = () => {
 
     let [newTitle, setNewTitle] = useState("")
     let [alarm, setAlarm] = useState<string | null>(null)
+    let dispatch = useDispatch()
 
     const addTask = () => {
         let titleForTodoList = newTitle.trim();
         if (titleForTodoList !== "") {
-            callBack(titleForTodoList);
+            dispatch(addNewTodolistAC(titleForTodoList))
             setNewTitle("");
         } else {
             setAlarm("Title is required");

@@ -18,27 +18,10 @@ function App() {
         <div className="App">
             <InputButton />
             {todoLists.map(todoLists => {
-                // let tasksForTodolist = tasks[todoLists.id];
-                // if (todoLists.filter === "Active") {
-                //     tasksForTodolist = tasks[todoLists.id].filter(f => !f.isDone);
-                // }
-                // if (todoLists.filter === "Completed") {
-                //     tasksForTodolist = tasks[todoLists.id].filter(f => f.isDone);
-                // }
                 return (
                     <Todolist
                         key={todoLists.id}
                         todolistID={todoLists.id}
-                        // title={todoLists.title}
-                        // tasks={tasksForTodolist}
-                        // removeTask={removeTask}
-                        // changeFilter={changeFilter}
-                        // addTask={addTask}
-                        // changeTaskStatus={changeStatus}
-                        // filter={todoLists.filter}
-                        // removeTodolist={removeTodolist}
-                        // upDateTasks={upDateTasks}
-                        // upDateTodoList={upDateTodoList}
                     />
                 )
             })}

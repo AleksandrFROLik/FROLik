@@ -1,6 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {useDispatch} from "react-redux";
-import {addNewTodolistAC} from "../reducer/todolistReducer";
+import {addNewTodolistAC} from "../reducer/toodListActions";
 
 
 export const InputButton = () => {

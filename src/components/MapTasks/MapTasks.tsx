@@ -2,47 +2,42 @@ import React, {ChangeEvent} from "react";
 import {Button} from "../Button/Button";
 import {TaskType} from "../../Todolist";
 import {EditAbleSpan} from "../EditAbleSpan/EditAbleSpan";
-import {useDispatch, useSelector} from "react-redux";
-import {rootReducerType} from "../reducer/store";
+import {useDispatch} from "react-redux";
 import {changeStatusAC} from "../reducer/tasksActions";
 
 
 type MapTasksType = {
-    title: string
-    // changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean) => void
+    tasksForTodolist: TaskType[]
     todolistID: string
     onClickHandler: (taskId: string) => void
     addNewTitleTask: (newTaskTitle: string, todolistID: string) => void
 }
 
 export const MapTasks = ({
-                             // changeTaskStatus,
+                             tasksForTodolist,
                              todolistID,
                              onClickHandler,
                              addNewTitleTask
                          }: MapTasksType) => {
 
-
-    const tasks = useSelector<rootReducerType, Array<TaskType>>(state => state.tasks[todolistID])
-    const dispatch  = useDispatch()
-
+    const dispatch = useDispatch()
 
     const addTaskHandler = (newTaskTitle: string, taskID: string) => {
         addNewTitleTask(newTaskTitle, taskID)
 
     }
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>, taskID:string) => {
-        // changeTaskStatus(todolistID, taskID, e.currentTarget.checked);
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>, taskID: string) => {
         dispatch(changeStatusAC(todolistID, taskID, e.currentTarget.checked))
     }
+
     return (
         <ul>
             {
-                tasks.map(tasks => {
+                tasksForTodolist.map(tasks => {
 
                     return <li key={tasks.id} className={tasks.isDone ? "is-done" : ""}>
                         <input type="checkbox"
-                               onChange={(e)=>onChangeHandler(e, tasks.id)}
+                               onChange={(e) => onChangeHandler(e, tasks.id)}
                                checked={tasks.isDone}/>
                         <EditAbleSpan mapTitle={tasks.title}
                                       callBack={(newTaskTitle: string) => addTaskHandler(newTaskTitle, tasks.id)}

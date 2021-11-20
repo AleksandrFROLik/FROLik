@@ -1,4 +1,4 @@
-import {AddNewTodolistACType, RemoveTodolistACType} from "./todolistReducer";
+import {AddNewTodolistACType, RemoveTodolistACType} from "./toodListActions";
 
 export enum ACTIONS_TYPE {
     ADD_TASK = "ADD-TASK",

@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {FilterValuesType,  TodoListType} from './App';
+import {FilterValuesType, TodoListType} from './App';
 import {Button} from "./components/Button/Button";
 import {Input} from "./components/Input/Input";
 import {MapTasks} from "./components/MapTasks/MapTasks";
 import {EditAbleSpan} from "./components/EditAbleSpan/EditAbleSpan";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./components/reducer/store";
-import {changeFilterAC, removeTodolistAC, upDateTodoListAC} from "./components/reducer/todolistReducer";
+import {changeFilterAC, removeTodolistAC, upDateTodoListAC} from "./components/reducer/toodListActions";
 import {addTaskAC, removeTaskAC, upDateTasksAC} from "./components/reducer/tasksActions";
 
 export type TaskType = {
@@ -30,6 +30,7 @@ export function Todolist({
     const tasks = useSelector<rootReducerType, Array<TaskType>>(state => state.tasks[todolistID])
 
     const dispatch = useDispatch()
+
     const addTask = () => {
         if (title.trim() !== "") {
             dispatch(addTaskAC(todolistID, title.trim()))
@@ -46,9 +47,11 @@ export function Todolist({
     const superButton = (value: FilterValuesType) => {
         dispatch(changeFilterAC(todolistID, value))
     }
-    const onClickHandler = (taskID: string) =>{
+
+    const onClickHandler = (taskID: string) => {
         dispatch(removeTaskAC(todolistID, taskID))
     }
+
     const addNewTitleTask = (newTaskTitle: string, taskID: string) => {
         if (newTaskTitle.trim() !== "") {
             dispatch(upDateTasksAC(newTaskTitle, todolistID, taskID))
@@ -56,6 +59,7 @@ export function Todolist({
             setError("Title is required");
         }
     }
+
     const addNewTitleTodoList = (newTitleTodoList: string) => {
         if (newTitleTodoList.trim() !== "") {
             dispatch(upDateTodoListAC(newTitleTodoList, todolistID))
@@ -64,6 +68,14 @@ export function Todolist({
         }
     }
 
+    let allTodoListTasks = tasks;
+    let tasksForTodolist = allTodoListTasks;
+    if (todo.filter === "Active") {
+        tasksForTodolist = allTodoListTasks.filter(f => !f.isDone);
+    }
+    if (todo.filter === "Completed") {
+        tasksForTodolist = allTodoListTasks.filter(f => f.isDone);
+    }
 
     return <div>
         <h3>
@@ -80,9 +92,7 @@ export function Todolist({
             {error && <div className="error-message">{error}</div>}
         </div>
         <MapTasks
-            title={title}
-            // tasks={tasks}
-            // changeTaskStatus={changeTaskStatus}
+            tasksForTodolist={tasksForTodolist}
             todolistID={todolistID}
             onClickHandler={onClickHandler}
             addNewTitleTask={addNewTitleTask}

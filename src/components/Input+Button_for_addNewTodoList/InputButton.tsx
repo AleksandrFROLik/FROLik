@@ -3,8 +3,8 @@ import {useDispatch} from "react-redux";
 import {addNewTodolistAC} from "../reducer/toodListActions";
 
 
-export const InputButton = () => {
-
+export const InputButton = React.memo (() => {
+    console.log('input button')
     let [newTitle, setNewTitle] = useState("")
     let [alarm, setAlarm] = useState<string | null>(null)
     let dispatch = useDispatch()
@@ -22,7 +22,9 @@ export const InputButton = () => {
         setNewTitle(e.currentTarget.value)
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setAlarm(null);
+        if(alarm !== null) {
+            setAlarm(null);
+        }
         if (e.key === 'Enter') {
             addTask();
         }
@@ -39,4 +41,4 @@ export const InputButton = () => {
             {alarm && <div className="error-message">{alarm}</div>}
         </div>
     )
-}
+})

@@ -1,11 +1,11 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
 
 type EditAbleSpanType = {
     mapTitle: string
     callBack: (newTaskTitle: string) => void
 }
-export const EditAbleSpan = ({mapTitle, callBack}: EditAbleSpanType) => {
-
+export const EditAbleSpan = React.memo (({mapTitle, callBack}: EditAbleSpanType) => {
+    console.log('editAbleSpan')
     let [edit, setEdit] = useState(false)
     let [newTaskTitle, setTaskTitle] = useState(mapTitle)
 
@@ -20,10 +20,10 @@ export const EditAbleSpan = ({mapTitle, callBack}: EditAbleSpanType) => {
     const editOn = () => {
         setEdit(true)
     }
-    const editOff = () => {
+    const editOff = useCallback (() => {
         setEdit(false)
         callBack(newTaskTitle)
-    }
+    }, [newTaskTitle, callBack])
 
     return (
         edit
@@ -37,4 +37,4 @@ export const EditAbleSpan = ({mapTitle, callBack}: EditAbleSpanType) => {
 
 
     )
-}
+})

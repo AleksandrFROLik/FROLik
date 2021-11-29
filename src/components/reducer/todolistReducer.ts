@@ -16,9 +16,10 @@ export const TodolistReducer = (state: TodoListsType = InitialState, action: Tod
             return [{id: action.todoListID, title: action.titleForTodoList, filter: "All"}, ...state]
 
         case ACTIONS_TYPE.REMOVE_TODOLIST:
-            return state.filter(tl => tl.id !== action.todolistID)
+            return [...state.filter(tl => tl.id !== action.todolistID)]
 
         case ACTIONS_TYPE.CHANGE_TODOLIST_FILTER: {
+
             const todolist = state.find(tl => tl.id === action.todolistID);
             if (todolist) {
                 todolist.filter = action.value;

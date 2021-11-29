@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {FilterValuesType, TodoListType} from './App';
 import {Button} from "./components/Button/Button";
 import {Input} from "./components/Input/Input";
@@ -19,68 +19,77 @@ type PropsType = {
     todolistID: string
 }
 
-export function Todolist({
+export const Todolist = ({
                              todolistID,
-                         }: PropsType) {
+                         }: PropsType) => {
+    console.log('todolist')
 
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
 
-    const todo = useSelector<rootReducerType, TodoListType>(state => state.todoLists.filter(todoLists => todoLists.id === todolistID)[0])
+    const todoList = useSelector<rootReducerType, TodoListType>(state => state.todoLists.filter(todoLists => todoLists.id === todolistID)[0])
     const tasks = useSelector<rootReducerType, Array<TaskType>>(state => state.tasks[todolistID])
 
     const dispatch = useDispatch()
 
-    const addTask = () => {
+    const addTask = useCallback(() => {
         if (title.trim() !== "") {
             dispatch(addTaskAC(todolistID, title.trim()))
             setTitle("");
         } else {
-            setError("Title is required");
+            if (error !== null) {
+                setError("Title is required");
+            }
+
         }
-    }
+    }, [dispatch, error, title, todolistID])
 
-    const onClickHandlerForRemoveTodolist = () => {
+    const onClickHandlerForRemoveTodolist = useCallback(() => {
         dispatch(removeTodolistAC(todolistID))
-    }
+    }, [dispatch, todolistID])
 
-    const superButton = (value: FilterValuesType) => {
+    const superButton = useCallback((value: FilterValuesType) => {
         dispatch(changeFilterAC(todolistID, value))
-    }
+    }, [dispatch, todolistID])
 
-    const onClickHandler = (taskID: string) => {
+    const onClickHandler = useCallback((taskID: string) => {
         dispatch(removeTaskAC(todolistID, taskID))
-    }
+    }, [dispatch, todolistID])
 
-    const addNewTitleTask = (newTaskTitle: string, taskID: string) => {
+    const addNewTitleTask = useCallback((newTaskTitle: string, taskID: string) => {
         if (newTaskTitle.trim() !== "") {
             dispatch(upDateTasksAC(newTaskTitle, todolistID, taskID))
         } else {
-            setError("Title is required");
+            if (error !== null) {
+                setError("Title is required");
+            }
         }
-    }
+    }, [dispatch, error, todolistID])
 
-    const addNewTitleTodoList = (newTitleTodoList: string) => {
+    const addNewTitleTodoList = useCallback((newTitleTodoList: string) => {
         if (newTitleTodoList.trim() !== "") {
             dispatch(upDateTodoListAC(newTitleTodoList, todolistID))
         } else {
-            setError("Title is required");
+            if (error !== null) {
+                setError("Title is required");
+            }
         }
+    }, [dispatch, error, todolistID])
+
+
+    let tasksForTodolist = tasks;
+    if (todoList.filter === "Active") {
+        tasksForTodolist = tasks.filter(tasks => !tasks.isDone);
+    }
+    if (todoList.filter === "Completed") {
+        tasksForTodolist = tasks.filter(tasks => tasks.isDone);
     }
 
-    let allTodoListTasks = tasks;
-    let tasksForTodolist = allTodoListTasks;
-    if (todo.filter === "Active") {
-        tasksForTodolist = allTodoListTasks.filter(f => !f.isDone);
-    }
-    if (todo.filter === "Completed") {
-        tasksForTodolist = allTodoListTasks.filter(f => f.isDone);
-    }
 
     return <div>
         <h3>
             <EditAbleSpan
-                mapTitle={todo.title}
+                mapTitle={todoList.title}
                 callBack={addNewTitleTodoList}
             />
             <Button name={'X'}
@@ -98,9 +107,9 @@ export function Todolist({
             addNewTitleTask={addNewTitleTask}
         />
         <div>
-            <Button name={'All'} callBack={() => superButton('All')} filter={todo.filter}/>
-            <Button name={'Active'} callBack={() => superButton('Active')} filter={todo.filter}/>
-            <Button name={'Completed'} callBack={() => superButton('Completed')} filter={todo.filter}/>
+            <Button name={'All'} callBack={() => superButton('All')} filter={todoList.filter}/>
+            <Button name={'Active'} callBack={() => superButton('Active')} filter={todoList.filter}/>
+            <Button name={'Completed'} callBack={() => superButton('Completed')} filter={todoList.filter}/>
         </div>
     </div>
 }

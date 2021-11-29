@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useCallback} from "react";
 import {Button} from "../Button/Button";
 import {TaskType} from "../../Todolist";
 import {EditAbleSpan} from "../EditAbleSpan/EditAbleSpan";
@@ -13,22 +13,23 @@ type MapTasksType = {
     addNewTitleTask: (newTaskTitle: string, todolistID: string) => void
 }
 
-export const MapTasks = ({
-                             tasksForTodolist,
-                             todolistID,
-                             onClickHandler,
-                             addNewTitleTask
-                         }: MapTasksType) => {
+export const MapTasks = React.memo(({
+                                        tasksForTodolist,
+                                        todolistID,
+                                        onClickHandler,
+                                        addNewTitleTask
+                                    }: MapTasksType) => {
+    console.log('Map')
 
     const dispatch = useDispatch()
 
-    const addTaskHandler = (newTaskTitle: string, taskID: string) => {
+    const addTaskHandler = useCallback((newTaskTitle: string, taskID: string) => {
         addNewTitleTask(newTaskTitle, taskID)
 
-    }
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>, taskID: string) => {
+    }, [addNewTitleTask])
+    const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>, taskID: string) => {
         dispatch(changeStatusAC(todolistID, taskID, e.currentTarget.checked))
-    }
+    }, [ onClickHandler, todolistID])
 
     return (
         <ul>
@@ -49,4 +50,4 @@ export const MapTasks = ({
             }
         </ul>
     )
-}
+})

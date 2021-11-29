@@ -10,13 +10,13 @@ type ButtonType = DefaultButtonPropsType & {
     filter?: FilterValuesType
 }
 
-export const Button: React.FC<ButtonType> = (
+export const Button: React.FC<ButtonType> = React.memo ((
     {
         name, callBack, filter,
         ...restProps
     }
 ) => {
-
+    // console.log('button')
     const onClickHandler = () => {
         callBack()
     }
@@ -24,5 +24,5 @@ export const Button: React.FC<ButtonType> = (
         <button onClick={onClickHandler} className={filter === name ? `${style.activeFilter}` : ''}>{name}</button>
 
     )
-}
+})
 

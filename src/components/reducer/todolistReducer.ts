@@ -1,6 +1,6 @@
 import {v1} from "uuid"
 import {TodoListsType} from "../../App";
-import {ACTIONS_TYPE, TodoListReducerType} from "./toodListActions";
+import {ACTIONS_TYPE, TodoListReducerType} from "./todoListActions";
 
 export let todoListID1 = v1()
 export let todoListID2 = v1()
@@ -24,6 +24,7 @@ export const TodolistReducer = (state: TodoListsType = InitialState, action: Tod
             if (todolist) {
                 todolist.filter = action.value;
             }
+            //return [...state.filter(todolist => todolist.id === action.todolistID ? {...todolist, filter: action.value}: todolist)];
             return [...state];
         }
 

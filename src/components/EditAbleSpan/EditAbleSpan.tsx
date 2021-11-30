@@ -5,7 +5,7 @@ type EditAbleSpanType = {
     callBack: (newTaskTitle: string) => void
 }
 export const EditAbleSpan = React.memo (({mapTitle, callBack}: EditAbleSpanType) => {
-    console.log('editAbleSpan')
+    // console.log('editAbleSpan')
     let [edit, setEdit] = useState(false)
     let [newTaskTitle, setTaskTitle] = useState(mapTitle)
 

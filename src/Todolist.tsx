@@ -6,7 +6,7 @@ import {MapTasks} from "./components/MapTasks/MapTasks";
 import {EditAbleSpan} from "./components/EditAbleSpan/EditAbleSpan";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./components/reducer/store";
-import {changeFilterAC, removeTodolistAC, upDateTodoListAC} from "./components/reducer/toodListActions";
+import {changeFilterAC, removeTodolistAC, upDateTodoListAC} from "./components/reducer/todoListActions";
 import {addTaskAC, removeTaskAC, upDateTasksAC} from "./components/reducer/tasksActions";
 
 export type TaskType = {
@@ -112,4 +112,4 @@ export const Todolist = ({
             <Button name={'Completed'} callBack={() => superButton('Completed')} filter={todoList.filter}/>
         </div>
     </div>
-}
+};

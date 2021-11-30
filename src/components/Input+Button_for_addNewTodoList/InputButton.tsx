@@ -1,10 +1,10 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {useDispatch} from "react-redux";
-import {addNewTodolistAC} from "../reducer/toodListActions";
+import {addNewTodolistAC} from "../reducer/todoListActions";
 
 
 export const InputButton = React.memo (() => {
-    console.log('input button')
+    // console.log('input button')
     let [newTitle, setNewTitle] = useState("")
     let [alarm, setAlarm] = useState<string | null>(null)
     let dispatch = useDispatch()

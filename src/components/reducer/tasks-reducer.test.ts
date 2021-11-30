@@ -4,7 +4,7 @@ import {
 } from './tasksActions';
 
 import {TasksType} from '../../App';
-import {addNewTodolistAC, removeTodolistAC} from './toodListActions';
+import {addNewTodolistAC, removeTodolistAC} from './todoListActions';
 import {taskReducer} from "./taskReducer";
 
 let startState: TasksType

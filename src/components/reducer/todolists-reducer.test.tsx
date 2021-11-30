@@ -1,10 +1,9 @@
-import React from 'react';
 import {
     addNewTodolistAC,
     removeTodolistAC,
     changeFilterAC,
     upDateTodoListAC,
-} from './todolistReducer';
+} from './todoListActions';
 
 import {v1} from 'uuid';
 import {FilterValuesType, TodoListType} from '../../App';

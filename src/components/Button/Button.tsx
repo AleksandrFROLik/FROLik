@@ -1,4 +1,4 @@
-import React, {ButtonHTMLAttributes, DetailedHTMLProps} from 'react'
+import React, {ButtonHTMLAttributes, DetailedHTMLProps, useCallback} from 'react'
 import style from './Button.module.css'
 import {FilterValuesType} from "../../App";
 
@@ -17,9 +17,9 @@ export const Button: React.FC<ButtonType> = React.memo ((
     }
 ) => {
     // console.log('button')
-    const onClickHandler = () => {
+    const onClickHandler =  useCallback(() => {
         callBack()
-    }
+    }, [callBack])
     return (
         <button onClick={onClickHandler} className={filter === name ? `${style.activeFilter}` : ''}>{name}</button>
 

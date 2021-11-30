@@ -15,7 +15,7 @@ export const Input: React.FC<InputType> = React.memo((
         title, setTitle, error, setError, callBack, onChange, onKeyPress, ...restProps
     }
 ) => {
-    console.log("Input")
+    // console.log("Input")
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         onChange && onChange(e);
         setTitle && setTitle(e.currentTarget.value)

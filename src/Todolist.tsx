@@ -1,4 +1,5 @@
 import React, {useCallback, useState} from 'react';
+import style from './Todolist.module.css'
 import {FilterValuesType, TodoListType} from './App';
 import {Button} from "./components/Button/Button";
 import {Input} from "./components/Input/Input";
@@ -22,7 +23,7 @@ type PropsType = {
 export const Todolist = ({
                              todolistID,
                          }: PropsType) => {
-    console.log('todolist')
+
 
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
@@ -86,7 +87,7 @@ export const Todolist = ({
     }
 
 
-    return <div>
+    return <div className={style.todoListBlock}>
         <h3>
             <EditAbleSpan
                 mapTitle={todoList.title}
@@ -98,7 +99,7 @@ export const Todolist = ({
         <div>
             <Input title={title} setTitle={setTitle} error={error} setError={setError} callBack={addTask}/>
             <Button name={'+'} callBack={addTask}/>
-            {error && <div className="error-message">{error}</div>}
+            {error && <div className={style.errorMessage}>{error}</div>}
         </div>
         <MapTasks
             tasksForTodolist={tasksForTodolist}

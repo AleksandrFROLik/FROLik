@@ -11,13 +11,12 @@ export type TasksType = { [key: string]: Array<TaskType> }
 export type TodoListsType = Array<TodoListType>
 
 const App = React.memo (() => {
-    console.log('app')
+
     let todoLists = useSelector<rootReducerType, TodoListsType>(state => state.todoLists)
 
     return (
         <div className="App">
             <InputButton/>
-            {/*<InputButton/>*/}
             {todoLists.map(todoLists => {
                 return (
                     <Todolist

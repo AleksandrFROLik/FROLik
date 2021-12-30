@@ -19,7 +19,7 @@ export const MapTasks = React.memo(({
                                         onClickHandler,
                                         addNewTitleTask
                                     }: MapTasksType) => {
-    // console.log('Map')
+
 
     const dispatch = useDispatch()
 
@@ -29,7 +29,7 @@ export const MapTasks = React.memo(({
     }, [addNewTitleTask])
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>, taskID: string) => {
         dispatch(changeStatusAC(todolistID, taskID, e.currentTarget.checked))
-    }, [onClickHandler, todolistID])
+    }, [todolistID, dispatch])
 
     return (
         <ul>

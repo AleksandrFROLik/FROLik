@@ -3,7 +3,6 @@ import {TasksType} from "../../App";
 import {todoListID1, todoListID2} from "./todolistReducer";
 import {ACTIONS_TYPE, TasksActionsType} from "./tasksActions";
 
-
 let InitialState: TasksType = {
     [todoListID1]: [
         {id: v1(), title: "HTML&CSS", isDone: true},

@@ -17,8 +17,6 @@ const App = React.memo (() => {
     return (
         <div className="App">
             <InputButton/>
-            <InputButton/>
-            <InputButton/>
             {todoLists.map(todoLists => {
                 return (
                     <Todolist

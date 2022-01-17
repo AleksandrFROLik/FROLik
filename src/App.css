@@ -1,7 +1,26 @@
+/*
 .App {
   padding: 30px;
   display: flex;
-  background-image: url('https://html5book.ru/wp-content/uploads/2016/04/background68.png');
-  height: 100vh;
 }
 
+.App > div {
+  margin-right: 50px;
+}
+
+.error {
+  border: red 1px solid;
+}
+
+.error-message {
+  color: red;
+}
+
+.active-filter {
+  background-color: aquamarine;
+}
+
+.is-done {
+  opacity: 0.5;
+}
+*/

@@ -26,6 +26,7 @@ export const todolistsApi = {
     }
 }
 
+
 type TodoType = {
     id: string,
     title: string,
@@ -40,17 +41,3 @@ type ResponseType<T = {}> = {
     data: T
 }
 
-// type CreateTodoType = {
-//     resultCode: number
-//     messages: string[],
-//     fieldsError: string,
-//     data: {
-//         item:  TodoType
-//     }
-// }
-// type DeleteAndUpDateTodoType = {
-//     resultCode: number
-//     messages: string[],
-//     fieldsError: string,
-//     data: {}
-// }

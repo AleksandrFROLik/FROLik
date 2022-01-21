@@ -1,5 +1,5 @@
 import axios from "axios";
-import {TaskType} from "../Todolist";
+
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1',
@@ -11,26 +11,26 @@ const instance = axios.create({
 
 export const tasksAPI = {
     getTasks(todolistId: string) {
-        return instance.get<TasksType>(`/todo-lists/${todolistId}/tasks`)
+        return instance.get<GetTasksResponse>(`/todo-lists/${todolistId}/tasks`)
     },
     createTask(params:{todolistId: string, title: string}) {
-        return instance.post<ResponseTaskType<{item: TasksType}>>(`/todo-lists/${params.todolistId}/tasks`, {title: params.title})
+        return instance.post<ResponseTaskType<{item: TaskType}>>(`/todo-lists/${params.todolistId}/tasks`, {title: params.title})
     },
     deleteTask(params:{todolistId: string, taskId: string}) {
         return instance.delete<ResponseTaskType>(`/todo-lists/${params.todolistId}/tasks/${params.taskId}`)
     },
     upDateTask(params:{todolistId: string, taskId: string, title: string}) {
-        return instance.put<ResponseTaskType<TasksType>>(`/todo-lists/${params.todolistId}/tasks/${params.taskId}`, {title:params.title})
+        return instance.put<ResponseTaskType<TaskType>>(`/todo-lists/${params.todolistId}/tasks/${params.taskId}`, {title:params.title})
     },
 }
 
 
-type TasksType = {
+ export type TaskType = {
     description: string
     title: string
     completed: boolean
-    status: TaskPriorities
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: null
     deadline: null
     id: string

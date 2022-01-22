@@ -19,8 +19,8 @@ export const tasksAPI = {
     deleteTask(params:{todolistId: string, taskId: string}) {
         return instance.delete<ResponseTaskType>(`/todo-lists/${params.todolistId}/tasks/${params.taskId}`)
     },
-    upDateTask(params:{todolistId: string, taskId: string, title: string}) {
-        return instance.put<ResponseTaskType<TaskType>>(`/todo-lists/${params.todolistId}/tasks/${params.taskId}`, {title:params.title})
+    upDateTask(todolistId: string, taskId: string, model:UpDateTask) {
+        return instance.put<ResponseTaskType<TaskType>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
     },
 }
 
@@ -60,14 +60,14 @@ export enum TaskPriorities {
     Later = 4
 }
 
-export type upDateTask = {
+export type UpDateTask = {
     title: string
     description: string
     completed: boolean
     status: TaskStatuses
     priority: TaskPriorities
-    startDate: string
-    deadline: string
+    startDate: string | null
+    deadline: string | null
 }
 
 type GetTasksResponse = {

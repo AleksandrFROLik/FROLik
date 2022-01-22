@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react'
 import './App.css';
-import { Todolist} from './Todolist';
+import {Todolist} from './Todolist';
 import {AddItemForm} from './AddItemForm';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -18,17 +18,10 @@ import {
     getTodoListsTC,
     upDateTodoListTC
 } from './state/todolists-reducer';
-import {
-    addTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
-    createTaskTC,
-    deleteTaskTC,
-    removeTaskAC
-} from './state/tasks-reducer';
+import {createTaskTC, deleteTaskTC, upDateTaskStatusTC, upDateTaskTitleTC} from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
-import { TaskType } from './api/tasks-api';
+import {TaskStatuses, TaskType} from './api/tasks-api';
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -63,14 +56,16 @@ function App() {
         dispatch(createTaskTC(params))
     }, []);
 
-    const changeStatus = useCallback(function (id: string, isDone: boolean, todolistId: string) {
-        const action = changeTaskStatusAC(id, isDone, todolistId);
-        dispatch(action);
+    const changeStatus = useCallback(function (taskId: string, status: TaskStatuses, todolistId: string) {
+        // const action = changeTaskStatusAC(id, isDone, todolistId);
+        // dispatch(action);
+        dispatch(upDateTaskStatusTC(taskId, status, todolistId))
     }, []);
 
-    const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-        const action = changeTaskTitleAC(id, newTitle, todolistId);
-        dispatch(action);
+    const changeTaskTitle = useCallback(function (params:{taskId: string, newTitle: string, todolistId: string}) {
+        // const action = changeTaskTitleAC(id, newTitle, todolistId);
+        // dispatch(action);
+        dispatch(upDateTaskTitleTC(params))
     }, []);
 
     const changeFilter = useCallback(function (params:{filter: FilterValuesType, todolistId: string}) {

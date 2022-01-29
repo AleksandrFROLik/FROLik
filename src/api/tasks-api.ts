@@ -40,8 +40,8 @@ export const tasksAPI = {
 }
 
 type ResponseTaskType<T = {}> = {
-    fieldsErrors: []
-    messages: []
+    fieldsErrors: string[] // think about it
+    messages: string[]
     resultCode: number
     data: T
 }

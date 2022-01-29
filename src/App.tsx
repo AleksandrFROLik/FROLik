@@ -16,29 +16,19 @@ import './App.css';
 import {Todolist} from './Todolist';
 import {AddItemForm} from './AddItemForm';
 import {
+    FilterValuesType,
+    TodolistType,
     changeTodolistFilterAC,
     createTodoListTC,
     deleteTodoListTC,
     getTodoListsTC,
-    upDateTodoListTC
+    upDateTodoListTC, TodolistDomainType
 } from './state/todolists-reducer';
-import {createTaskTC, deleteTaskTC, upDateTaskStatusTC, upDateTaskTitleTC} from './state/tasks-reducer';
+import {createTaskTC, deleteTaskTC, TasksStateType, upDateTaskStatusTC, upDateTaskTitleTC} from './state/tasks-reducer';
 import {AppRootStateType, useAppSelector} from './state/store';
 import {TaskStatuses, TaskType} from './api/tasks-api';
 import {RequestStatusType} from "./state/app-reducer";
-
-
-
-export type FilterValuesType = 'all' | 'active' | 'completed';
-export type TodolistType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
-
-export type TasksStateType = {
-    [key: string]: Array<TaskType>
-}
+import {ErrorSnackbar} from "./components/errorSnackbar/ErrorSnackbar";
 
 
 function App() {
@@ -47,7 +37,7 @@ function App() {
         dispatch(getTodoListsTC())
     },[])
 
-    const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
+    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
     // const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
@@ -115,12 +105,13 @@ function App() {
                                     <Todolist
                                         id={tl.id}
                                         title={tl.title}
+                                        filter={tl.filter}
+                                        entityStatus={tl.entityStatus}
                                         tasks={allTodolistTasks}
                                         removeTask={removeTask}
                                         changeFilter={changeFilter}
                                         addTask={addTask}
                                         changeTaskStatus={changeStatus}
-                                        filter={tl.filter}
                                         removeTodolist={removeTodolist}
                                         changeTaskTitle={changeTaskTitle}
                                         changeTodolistTitle={changeTodolistTitle}
@@ -131,6 +122,7 @@ function App() {
                     }
                 </Grid>
             </Container>
+            <ErrorSnackbar/>
         </div>
     );
 }

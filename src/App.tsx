@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect} from 'react'
-import './App.css';
-import {Todolist} from './Todolist';
-import {AddItemForm} from './AddItemForm';
+import {useDispatch, useSelector} from 'react-redux';
+
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -10,7 +9,12 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import {Menu} from '@mui/icons-material';
+import Menu from '@mui/icons-material/Menu';
+import LinearProgress from '@mui/material/LinearProgress';
+
+import './App.css';
+import {Todolist} from './Todolist';
+import {AddItemForm} from './AddItemForm';
 import {
     changeTodolistFilterAC,
     createTodoListTC,
@@ -19,9 +23,10 @@ import {
     upDateTodoListTC
 } from './state/todolists-reducer';
 import {createTaskTC, deleteTaskTC, upDateTaskStatusTC, upDateTaskTitleTC} from './state/tasks-reducer';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from './state/store';
+import {AppRootStateType, useAppSelector} from './state/store';
 import {TaskStatuses, TaskType} from './api/tasks-api';
+import {RequestStatusType} from "./state/app-reducer";
+
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -44,11 +49,11 @@ function App() {
 
     const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    // const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+    const status = useAppSelector<RequestStatusType>(state => state.app.status)
     const dispatch = useDispatch();
 
     const removeTask = useCallback(function (params:{taskId: string, todolistId: string}) {
-        // const action = removeTaskAC(id, todolistId);
-        // dispatch(action);
         dispatch(deleteTaskTC(params))
     }, []);
 
@@ -57,14 +62,10 @@ function App() {
     }, []);
 
     const changeStatus = useCallback(function (params:{taskId: string, status: TaskStatuses, todolistId: string}) {
-        // const action = changeTaskStatusAC(id, isDone, todolistId);
-        // dispatch(action);
         dispatch(upDateTaskStatusTC(params))
     }, []);
 
     const changeTaskTitle = useCallback(function (params:{taskId: string, newTitle: string, todolistId: string}) {
-        // const action = changeTaskTitleAC(id, newTitle, todolistId);
-        // dispatch(action);
         dispatch(upDateTaskTitleTC(params))
     }, []);
 
@@ -97,6 +98,9 @@ function App() {
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
+
+            {status === 'loading' &&  <LinearProgress />}
+
             <Container fixed>
                 <Grid container style={{padding: '20px'}}>
                     <AddItemForm addItem={addTodolist}/>

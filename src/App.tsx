@@ -17,7 +17,6 @@ import {Todolist} from './Todolist';
 import {AddItemForm} from './AddItemForm';
 import {
     FilterValuesType,
-    TodolistType,
     changeTodolistFilterAC,
     createTodoListTC,
     deleteTodoListTC,
@@ -93,7 +92,7 @@ function App() {
 
             <Container fixed>
                 <Grid container style={{padding: '20px'}}>
-                    <AddItemForm addItem={addTodolist}/>
+                    <AddItemForm addItem={addTodolist} />
                 </Grid>
                 <Grid container spacing={3}>
                     {

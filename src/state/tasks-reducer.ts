@@ -145,10 +145,14 @@ export const createTaskTC = (params: { todolistId: string, title: string }) => (
                 let task = res.data.data.item
                 dispatch(addTaskAC(task))
             } else {
-                dispatch(setAppStatus("failed"))
                 dispatch(setAppErrorAC(res.data.messages.length ? res.data.messages[0] : 'Some error'))
             }
-            dispatch(setAppStatus("succeeded"))
+        })
+        .catch((err)=>{
+            dispatch(setAppErrorAC(err.message))
+        })
+        .finally(()=>{
+            dispatch(setAppStatus("idle"))
         })
 }
 

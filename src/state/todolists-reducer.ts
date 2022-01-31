@@ -123,7 +123,7 @@ export const deleteTodoListTC = (todolistId: string) => (dispatch: Dispatch) => 
                 dispatch(removeTodolistAC(todolistId))
             }else {
                 dispatch(setAppStatus("failed"))
-                dispatch(setAppErrorAC(res.data.messages.length ? res.data.messages[0] : 'Some error'))
+                dispatch(setAppErrorAC(res.data.messages.length ? res.data.messages[0] : 'Some error occurred'))
             }
             dispatch(setAppStatus("succeeded"))
 

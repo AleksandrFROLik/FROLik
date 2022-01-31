@@ -35,10 +35,10 @@ export type TodoType = {
     order: string
 }
 
-type ResponseType<T = {}> = {
+export type ResponseType<T = {}> = {
+    fieldsErrors: string[]
+    messages: string[]
     resultCode: number
-    messages: string[],
-    fieldsError: string,
     data: T
 }
 

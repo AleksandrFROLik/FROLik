@@ -14,13 +14,13 @@ export const tasksAPI = {
         return instance.get<GetTasksResponse>(`/todo-lists/${todolistId}/tasks`)
     },
     createTask(params:{todolistId: string, title: string}) {
-        return instance.post<ResponseTaskType<{item: TaskType}>>(`/todo-lists/${params.todolistId}/tasks`, {title: params.title})
+        return instance.post<ResponseType<{item: TaskType}>>(`/todo-lists/${params.todolistId}/tasks`, {title: params.title})
     },
     deleteTask(params:{todolistId: string, taskId: string}) {
-        return instance.delete<ResponseTaskType>(`/todo-lists/${params.todolistId}/tasks/${params.taskId}`)
+        return instance.delete<ResponseType>(`/todo-lists/${params.todolistId}/tasks/${params.taskId}`)
     },
     upDateTask(todolistId: string, taskId: string, model:UpDateTask) {
-        return instance.put<ResponseTaskType<TaskType>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
+        return instance.put<ResponseType<TaskType>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
     },
 }
 
@@ -39,8 +39,8 @@ export const tasksAPI = {
     addedDate: null
 }
 
-type ResponseTaskType<T = {}> = {
-    fieldsErrors: string[] // think about it
+ export type ResponseType<T = {}> = {
+    fieldsErrors: string[]
     messages: string[]
     resultCode: number
     data: T

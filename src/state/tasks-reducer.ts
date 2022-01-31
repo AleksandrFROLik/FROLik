@@ -3,6 +3,7 @@ import {Dispatch} from "redux";
 import {tasksAPI, TaskStatuses, TaskType, UpDateTask} from "../api/tasks-api";
 import {AppRootStateType} from "./store";
 import {AppActionsType, setAppErrorAC, setAppStatus} from "./app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -145,13 +146,15 @@ export const createTaskTC = (params: { todolistId: string, title: string }) => (
                 let task = res.data.data.item
                 dispatch(addTaskAC(task))
             } else {
+                handleServerAppError< {item: TaskType}>(dispatch, res.data)
                 dispatch(setAppErrorAC(res.data.messages.length ? res.data.messages[0] : 'Some error'))
             }
         })
-        .catch((err)=>{
-            dispatch(setAppErrorAC(err.message))
+        .catch((err) => {
+            handleServerNetworkError(dispatch, err.message)
+            // dispatch(setAppErrorAC(err.message))
         })
-        .finally(()=>{
+        .finally(() => {
             dispatch(setAppStatus("idle"))
         })
 }

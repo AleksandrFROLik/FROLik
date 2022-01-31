@@ -67,6 +67,7 @@ function App() {
     }, []);
 
     const changeTodolistTitle = useCallback(function (params:{todolistId: string, newTitle: string}) {
+        debugger
         dispatch(upDateTodoListTC(params))
     }, []);
 

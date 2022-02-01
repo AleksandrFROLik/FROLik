@@ -33,52 +33,32 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             const stateCopy = {...state}
             action.todoLists.forEach((todoLists) => stateCopy[todoLists.id] = [])
             return stateCopy
-
         }
         case "SET-TASKS":
-            const stateCopy = {...state}
-            stateCopy[action.todolistId] = action.tasks
-            return stateCopy
-
+            return {...state, [action.todolistId]: state[action.todolistId] = action.tasks}
 
         case 'REMOVE-TASK': {
-            const stateCopy = {...state}
-            const tasks = stateCopy[action.todolistId];
-            const newTasks = tasks.filter(t => t.id !== action.taskId);
-            stateCopy[action.todolistId] = newTasks;
-            return stateCopy;
+            return {...state, [action.todolistId]: state[action.todolistId].filter(task => task.id !== action.taskId)}
         }
         case 'ADD-TASK': {
-            const stateCopy = {...state}
-            const tasks = stateCopy[action.task.todoListId];
-            const newTasks = [action.task, ...tasks];
-            stateCopy[action.task.todoListId] = newTasks;
-            return stateCopy
+            return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
         }
         case 'CHANGE-TASK-STATUS': {
-
-            return {...state, [action.todolistId]:state[action.todolistId].map(task => task.id === action.taskId
-                ? {...task, status: action.status}
-                : task)}
-        }
-        case 'CHANGE-TASK-TITLE': {
-            let todolistTasks = state[action.todolistId];
-
-            let newTasksArray = todolistTasks
-                .map(t => t.id === action.taskId ? {...t, title: action.title} : t);
-            state[action.todolistId] = newTasksArray;
-            return ({...state});
-        }
-        case 'ADD-TODOLIST': {
-            return {
-                ...state,
-                [action.todolist.id]: []
+            return {...state, [action.todolistId]: state[action.todolistId].map(task => task.id === action.taskId
+                    ? {...task, status: action.status}
+                    : task)
             }
         }
+        case 'CHANGE-TASK-TITLE': {
+            return {...state, [action.todolistId]: state[action.todolistId].map(task=> task.id === action.taskId
+                    ? {...task, title: action.title}
+                    :task)}
+        }
+        case 'ADD-TODOLIST': {
+            return {...state, [action.todolist.id]: []}
+        }
         case 'REMOVE-TODOLIST': {
-            const copyState = {...state};
-            delete copyState[action.id];
-            return copyState;
+            return {...state, [action.id]:state[action.id]}
         }
         default:
             return state;
@@ -114,6 +94,7 @@ export const createTaskTC = (params: { todolistId: string, title: string }) => (
     tasksAPI.createTask(params)
         .then((res) => {
             if (res.data.resultCode === 0) {
+                dispatch(setAppStatus("succeeded"))
                 let task = res.data.data.item
                 dispatch(addTaskAC(task))
             } else {
@@ -155,9 +136,11 @@ export const upDateTaskTitleTC = (params: { taskId: string, todolistId: string, 
             startDate: task.startDate,
             deadline: task.deadline
         }
+        dispatch(setAppStatus("loading"))
         tasksAPI.upDateTask(params.todolistId, params.taskId, model)
             .then((res) => {
                 if (res.data.resultCode === 0) {
+                    dispatch(setAppStatus("succeeded"))
                     dispatch(changeTaskTitleAC(params))
                 } else {
                     handleServerAppError(dispatch, res.data)

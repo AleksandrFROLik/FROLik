@@ -165,6 +165,15 @@ export const upDateTaskStatusTC = (params: { taskId: string, status: TaskStatuse
             startDate: task.startDate,
             deadline: task.deadline
         }
+        const model2: UpDateTask = {
+            title: task.title,
+            description: task.description,
+            completed: task.completed,
+            status: params.status,
+            priority: task.priority,
+            startDate: task.startDate,
+            deadline: task.deadline
+        }
         dispatch(setAppStatus("loading"))
         tasksAPI.upDateTask(params.todolistId, params.taskId, model)
             .then((res) => {

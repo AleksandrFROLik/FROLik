@@ -1,5 +1,4 @@
-import axios from "axios";
-
+import axios, {AxiosResponse} from "axios";
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1',
@@ -9,42 +8,50 @@ const instance = axios.create({
     }
 })
 
+type Created = ResponseType<{ item: TaskType }>
+
 export const tasksAPI = {
     getTasks(todolistId: string) {
         return instance.get<GetTasksResponse>(`/todo-lists/${todolistId}/tasks`)
     },
-    createTask(params:{todolistId: string, title: string}) {
-        return instance.post<ResponseType<{item: TaskType}>>(`/todo-lists/${params.todolistId}/tasks`, {title: params.title})
+    createTask(params: { todolistId: string, title: string }) {
+        return instance.post<Created, AxiosResponse<Created>, { title: string }>(`/todo-lists/${params.todolistId}/tasks`, {title: params.title})
     },
-    deleteTask(params:{todolistId: string, taskId: string}) {
+    deleteTask(params: { todolistId: string, taskId: string }) {
         return instance.delete<ResponseType>(`/todo-lists/${params.todolistId}/tasks/${params.taskId}`)
     },
-    upDateTask(todolistId: string, taskId: string, model:UpDateTask) {
-        return instance.put<ResponseType<TaskType>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
+    upDateTask(todolistId: string, taskId: string, model: UpDateTask) {
+        return instance.put<Created, AxiosResponse<Created>, { title: string }>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
     },
 }
 
+type GetTasksResponse = {
+    error: string | null
+    totalCount: number
+    items: TaskType[]
+}
 
- export type TaskType = {
+export type TaskType = {
     description: string
     title: string
     completed: boolean
     status: TaskStatuses
     priority: TaskPriorities
-    startDate: null
-    deadline: null
+    startDate: null | string
+    deadline: null | string
     id: string
     todoListId: string
     order: number
     addedDate: null
 }
 
- export type ResponseType<T = {}> = {
+export type ResponseType<T = {}> = {
     fieldsErrors: string[]
     messages: string[]
     resultCode: number
     data: T
 }
+
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
@@ -70,8 +77,4 @@ export type UpDateTask = {
     deadline: string | null
 }
 
-type GetTasksResponse = {
-    error: string | null
-    totalCount: number
-    items: TaskType[]
-}
+

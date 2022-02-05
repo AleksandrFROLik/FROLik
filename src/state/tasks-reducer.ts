@@ -44,21 +44,24 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
         }
         case 'CHANGE-TASK-STATUS': {
-            return {...state, [action.todolistId]: state[action.todolistId].map(task => task.id === action.taskId
+            return {
+                ...state, [action.todolistId]: state[action.todolistId].map(task => task.id === action.taskId
                     ? {...task, status: action.status}
                     : task)
             }
         }
         case 'CHANGE-TASK-TITLE': {
-            return {...state, [action.todolistId]: state[action.todolistId].map(task=> task.id === action.taskId
+            return {
+                ...state, [action.todolistId]: state[action.todolistId].map(task => task.id === action.taskId
                     ? {...task, title: action.title}
-                    :task)}
+                    : task)
+            }
         }
         case 'ADD-TODOLIST': {
             return {...state, [action.todolist.id]: []}
         }
         case 'REMOVE-TODOLIST': {
-            return {...state, [action.id]:state[action.id]}
+            return {...state, [action.id]: state[action.id]}
         }
         default:
             return state;
@@ -153,7 +156,6 @@ export const upDateTaskTitleTC = (params: { taskId: string, todolistId: string, 
 }
 
 export const upDateTaskStatusTC = (params: { taskId: string, status: TaskStatuses, todolistId: string }) => (dispatch: Dispatch, getStatus: () => AppRootStateType) => {
-
     const task = getStatus().tasks[params.todolistId].find(task => task.id === params.taskId)
     if (task) {
         const model: UpDateTask = {
@@ -165,15 +167,7 @@ export const upDateTaskStatusTC = (params: { taskId: string, status: TaskStatuse
             startDate: task.startDate,
             deadline: task.deadline
         }
-        const model2: UpDateTask = {
-            title: task.title,
-            description: task.description,
-            completed: task.completed,
-            status: params.status,
-            priority: task.priority,
-            startDate: task.startDate,
-            deadline: task.deadline
-        }
+
         dispatch(setAppStatus("loading"))
         tasksAPI.upDateTask(params.todolistId, params.taskId, model)
             .then((res) => {

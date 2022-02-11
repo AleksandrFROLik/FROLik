@@ -94,16 +94,15 @@ export const Todolist = React.memo(function (props: PropsType) {
             <Button variant={props.filter === 'all' ? 'outlined' : 'text'}
                     onClick={onAllClickHandler}
                     color={'inherit'}
-            >All
-            </Button>
+            >All</Button>
             <Button variant={props.filter === 'active' ? 'outlined' : 'text'}
                     onClick={onActiveClickHandler}
-                    color={'primary'}>Active
-            </Button>
+                    color={'primary'}
+            >Active</Button>
             <Button variant={props.filter === 'completed' ? 'outlined' : 'text'}
                     onClick={onCompletedClickHandler}
-                    color={'secondary'}>Completed
-            </Button>
+                    color={'secondary'}
+            >Completed</Button>
         </div>
     </div>
 })

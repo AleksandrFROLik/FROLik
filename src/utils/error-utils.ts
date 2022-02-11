@@ -11,7 +11,3 @@ export const handleServerAppError = <T>(dispatch: Dispatch<AppActionsType>, data
     dispatch(setAppStatus("failed"))
     dispatch(setAppErrorAC(data.messages.length ? data.messages[0] : 'Some error'))
 }
-
-export const deleteInfo = ()=> {
-
-}

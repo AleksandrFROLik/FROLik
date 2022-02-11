@@ -1,5 +1,4 @@
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-
 export type AppActionsType = SetAppStatusActionType | SetAppErrorActionType
 
 const initialState = {status: 'loading' as RequestStatusType, error: null as string | null}

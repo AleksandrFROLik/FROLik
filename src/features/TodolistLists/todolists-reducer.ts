@@ -1,7 +1,7 @@
-import {todolistsApi, TodoType} from "../api/todolists-api";
-import {AppActionsType, RequestStatusType, setAppStatus} from "./app-reducer";
-import {handleServerAppError} from "../utils/error-utils";
-import {AppThunkType} from "./store";
+import {todolistsApi, TodoType} from "../../api/todolists-api";
+import {AppActionsType, RequestStatusType, setAppStatus} from "../../state/app-reducer";
+import {handleServerAppError} from "../../utils/error-utils";
+import {AppThunkType} from "../../state/store";
 
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>

@@ -5,14 +5,14 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import {Delete} from '@mui/icons-material';
 
-import {AddItemForm} from './AddItemForm'
-import {EditableSpan} from './EditableSpan'
-import {Task} from './Task'
+import {AddItemForm} from '../../../components/addItemForm/AddItemForm'
+import {EditableSpan} from '../../../components/editAbleSpan/EditableSpan'
+import {Task} from './Task/Task'
 
-import {getTasksTC} from "./state/tasks-reducer";
-import {TaskStatuses, TaskType} from "./api/tasks-api";
-import {FilterValuesType} from "./state/todolists-reducer";
-import {RequestStatusType} from "./state/app-reducer";
+import {getTasksTC} from "../tasks-reducer";
+import {TaskStatuses, TaskType} from "../../../api/tasks-api";
+import {FilterValuesType} from "../todolists-reducer";
+import {RequestStatusType} from "../../../state/app-reducer";
 
 
 type PropsType = {

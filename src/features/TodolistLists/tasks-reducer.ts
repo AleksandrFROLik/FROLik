@@ -1,8 +1,8 @@
 import {AddTodolistActionType, GetTodoListActionType, RemoveTodolistActionType} from './todolists-reducer';
-import {tasksAPI, TaskStatuses, TaskType, UpDateTask} from "../api/tasks-api";
-import {AppRootStateType, AppThunkType} from "./store";
-import {AppActionsType, setAppStatus} from "./app-reducer";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import {tasksAPI, TaskStatuses, TaskType, UpDateTask} from "../../api/tasks-api";
+import {AppRootStateType, AppThunkType} from "../../state/store";
+import {AppActionsType, setAppStatus} from "../../state/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 export type AddTaskActionType = ReturnType<typeof addTaskAC>

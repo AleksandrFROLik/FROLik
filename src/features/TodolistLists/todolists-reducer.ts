@@ -1,6 +1,6 @@
 import {todolistsApi, TodoType} from "../../api/todolists-api";
 import {AppActionsType, RequestStatusType, setAppStatus} from "../../state/app-reducer";
-import {handleServerAppError} from "../../utils/error-utils";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {AppThunkType} from "../../state/store";
 
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
@@ -71,6 +71,9 @@ export const getTodoListsTC = ():AppThunkType => (dispatch) => {
             let todolists = res.data
             dispatch(getTodoListsAC(todolists))
         })
+        .catch((error) => {
+            handleServerNetworkError(dispatch, error)
+        })
 }
 export const createTodoListTC = (title: string):AppThunkType => (dispatch) => {
     dispatch(setAppStatus("loading"))
@@ -82,6 +85,9 @@ export const createTodoListTC = (title: string):AppThunkType => (dispatch) => {
             } else {
                 handleServerAppError(dispatch, res.data)
             }
+        })
+        .catch((error) => {
+            handleServerNetworkError(dispatch, error)
         })
 }
 
@@ -97,6 +103,9 @@ export const deleteTodoListTC = (todolistId: string):AppThunkType => (dispatch) 
                 handleServerAppError(dispatch, res.data)
             }
         })
+        .catch((error) => {
+            handleServerNetworkError(dispatch, error)
+        })
 }
 
 export const upDateTodoListTC = (params: { todolistId: string, newTitle: string }):AppThunkType => (dispatch) => {
@@ -109,6 +118,9 @@ export const upDateTodoListTC = (params: { todolistId: string, newTitle: string 
             } else {
                 handleServerAppError(dispatch, res.data)
             }
+        })
+        .catch((error) => {
+            handleServerNetworkError(dispatch, error)
         })
 }
 

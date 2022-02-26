@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import {AddItemForm} from "../../components/addItemForm/AddItemForm";
@@ -15,19 +15,25 @@ import {TaskStatuses} from "../../api/tasks-api";
 import {
     changeTodolistFilterAC, createTodoListTC,
     deleteTodoListTC,
-    FilterValuesType, TodolistDomainType,
+    FilterValuesType,
+    getTodoListsTC,
+    TodolistDomainType,
     upDateTodoListTC
 } from "./todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType,} from "../../state/store";
+import {AppRootStateType, useAppSelector,} from "../../state/store";
+import {Navigate} from "react-router-dom";
 
 
 export const TodolistLists = () => {
-
-    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const todolists = useAppSelector< Array<TodolistDomainType>>(state => state.todolists)
+    const tasks = useAppSelector<TasksStateType>(state => state.tasks)
+    const isLoggedIn = useAppSelector<boolean>(state=>state.login.isLoggedIn)
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(getTodoListsTC())
+    }, [])
 
     const removeTask = useCallback(function (params: { taskId: string, todolistId: string }) {
         dispatch(deleteTaskTC(params))
@@ -62,6 +68,9 @@ export const TodolistLists = () => {
         dispatch(createTodoListTC(title))
     }, [dispatch]);
 
+    if(!!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
 
     return <>
         <Grid container style={{padding: '20px'}}>

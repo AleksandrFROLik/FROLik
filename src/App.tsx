@@ -12,7 +12,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Menu from '@mui/icons-material/Menu';
 
 import './App.css';
-import {getTodoListsTC} from './features/TodolistLists/todolists-reducer';
+
 import {useAppSelector} from './state/store';
 import {RequestStatusType} from "./state/app-reducer";
 import {TodolistLists} from "./features/TodolistLists/TodolistLists";
@@ -23,11 +23,8 @@ import {ErrorSnackbar} from "./components/errorSnackbar/ErrorSnackbar";
 
 function App() {
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
-    const dispatch = useDispatch();
+    const error = useAppSelector(state => state.app.error)
 
-    useEffect(() => {
-        dispatch(getTodoListsTC())
-    }, [])
 
     return (
         <div className="App">
@@ -52,7 +49,6 @@ function App() {
                     <Route path='404' element={<Error/>}/>
                     <Route path='*' element={<Navigate to='404'/>}/>
                 </Routes>
-
             </Container>
             <ErrorSnackbar/>
         </div>

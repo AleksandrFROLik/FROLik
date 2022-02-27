@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import {Navigate, Route, Routes} from "react-router-dom";
 
-import {useDispatch} from 'react-redux';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -22,10 +21,8 @@ import {ErrorSnackbar} from "./components/errorSnackbar/ErrorSnackbar";
 
 
 function App() {
+    debugger
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
-    const error = useAppSelector(state => state.app.error)
-
-
     return (
         <div className="App">
             <AppBar position="static">

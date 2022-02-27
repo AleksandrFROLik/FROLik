@@ -20,19 +20,22 @@ import {
     TodolistDomainType,
     upDateTodoListTC
 } from "./todolists-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType, useAppSelector,} from "../../state/store";
+import {useDispatch} from "react-redux";
+import {useAppSelector,} from "../../state/store";
 import {Navigate} from "react-router-dom";
 
 
-export const TodolistLists = () => {
+export const TodolistLists = React.memo(() => {
     const todolists = useAppSelector< Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useAppSelector<TasksStateType>(state => state.tasks)
     const isLoggedIn = useAppSelector<boolean>(state=>state.login.isLoggedIn)
     const dispatch = useDispatch();
-
+   debugger
     useEffect(() => {
-        dispatch(getTodoListsTC())
+        if(isLoggedIn){
+            debugger
+            dispatch(getTodoListsTC())
+        }
     }, [])
 
     const removeTask = useCallback(function (params: { taskId: string, todolistId: string }) {
@@ -69,7 +72,7 @@ export const TodolistLists = () => {
     }, [dispatch]);
 
     if(!!isLoggedIn) {
-        return <Navigate to={'/login'}/>
+        return <Navigate to={'login'}/>
     }
 
     return <>
@@ -102,5 +105,5 @@ export const TodolistLists = () => {
             }
         </Grid>
     </>
-};
+});
 

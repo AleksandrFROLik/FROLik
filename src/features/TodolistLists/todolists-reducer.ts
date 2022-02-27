@@ -73,6 +73,7 @@ export const getTodoListsTC = ():AppThunkType => (dispatch) => {
         })
         .catch((error) => {
             handleServerNetworkError(dispatch, error)
+            dispatch(setAppStatus("failed"))
         })
 }
 export const createTodoListTC = (title: string):AppThunkType => (dispatch) => {

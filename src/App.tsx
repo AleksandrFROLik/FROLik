@@ -21,7 +21,7 @@ import {ErrorSnackbar} from "./components/errorSnackbar/ErrorSnackbar";
 
 
 function App() {
-    debugger
+
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
     return (
         <div className="App">

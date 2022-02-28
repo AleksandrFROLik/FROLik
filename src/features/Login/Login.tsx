@@ -21,9 +21,9 @@ type FormikErrorType = {
 }
 
 
-export const Login = React.memo (() => {
+export const Login = React.memo(() => {
     const dispatch = useDispatch()
-    const isLoggedIn = useAppSelector<boolean>(state=>state.login.isLoggedIn)
+    const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
 
     const formik = useFormik({
         initialValues: {
@@ -51,10 +51,9 @@ export const Login = React.memo (() => {
         },
     })
 
-    if(isLoggedIn) {
-       return <Navigate to={'/'}/>
+    if (isLoggedIn) {
+        return <Navigate to={'/'}/>
     }
-
 
 
     return <Grid container justifyContent={'center'}>
@@ -92,7 +91,8 @@ export const Login = React.memo (() => {
                             name="rememberMe"
                             onChange={formik.handleChange}
                             checked={formik.values.rememberMe}
-                        />}/>
+                        />}
+                        />
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Login
                         </Button>

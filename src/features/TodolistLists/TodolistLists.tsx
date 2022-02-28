@@ -30,48 +30,47 @@ export const TodolistLists = React.memo(() => {
     const tasks = useAppSelector<TasksStateType>(state => state.tasks)
     const isLoggedIn = useAppSelector<boolean>(state=>state.login.isLoggedIn)
     const dispatch = useDispatch();
-   debugger
+
     useEffect(() => {
         if(isLoggedIn){
-            debugger
             dispatch(getTodoListsTC())
         }
     }, [])
 
     const removeTask = useCallback(function (params: { taskId: string, todolistId: string }) {
         dispatch(deleteTaskTC(params))
-    }, []);
+    }, [dispatch]);
 
     const addTask = useCallback(function (params: { title: string, todolistId: string }) {
         dispatch(createTaskTC(params))
-    }, []);
+    }, [dispatch]);
 
     const changeStatus = useCallback(function (params: { taskId: string, status: TaskStatuses, todolistId: string }) {
         dispatch(upDateTaskStatusTC(params))
-    }, []);
+    }, [dispatch]);
 
     const changeTaskTitle = useCallback(function (params: { taskId: string, newTitle: string, todolistId: string }) {
         dispatch(upDateTaskTitleTC(params))
-    }, []);
+    }, [dispatch]);
 
     const changeFilter = useCallback(function (params: { filter: FilterValuesType, todolistId: string }) {
         dispatch(changeTodolistFilterAC(params))
-    }, []);
+    }, [dispatch]);
 
     const removeTodolist = useCallback(function (id: string) {
         dispatch(deleteTodoListTC(id))
-    }, []);
+    }, [dispatch]);
 
     const changeTodolistTitle = useCallback(function (params: { todolistId: string, newTitle: string }) {
         debugger
         dispatch(upDateTodoListTC(params))
-    }, []);
+    }, [dispatch]);
 
     const addTodolist = useCallback((title: string) => {
         dispatch(createTodoListTC(title))
     }, [dispatch]);
 
-    if(!!isLoggedIn) {
+    if(!isLoggedIn) {
         return <Navigate to={'login'}/>
     }
 

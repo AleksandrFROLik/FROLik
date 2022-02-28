@@ -17,9 +17,7 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
             return state
     }
 }
-// actions
-export const setIsLoggedInAC = (value: boolean) =>
-    ({type: 'login/SET-IS-LOGGED-IN', value} as const)
+
 
 // thunks
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsType>) => {
@@ -27,8 +25,8 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsTyp
     authAPI.login(data)
         .then((res) => {
             if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC(true))
                 dispatch(setAppStatus("succeeded"))
+                dispatch(setIsLoggedInAC(true))
             } else {
                 console.log(res.data)
                 handleServerAppError(dispatch, res.data)
@@ -40,5 +38,8 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsTyp
         })
 }
 
+// actions
+export const setIsLoggedInAC = (value: boolean) =>
+    ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 // types
 type ActionsType = ReturnType<typeof setIsLoggedInAC> | SetAppStatusActionType | SetAppErrorActionType

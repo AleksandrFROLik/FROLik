@@ -2,6 +2,7 @@ import {todolistsApi, TodoType} from "../../api/todolists-api";
 import {AppActionsType, RequestStatusType, setAppStatus} from "../../state/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {AppThunkType} from "../../state/store";
+import {Dispatch} from "redux";
 
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
@@ -63,7 +64,7 @@ export const changeTodolistEntityStatusAC = (params: { todolistId: string, entit
 
 //THUNKS
 
-export const getTodoListsTC = ():AppThunkType => (dispatch) => {
+export const getTodoListsTC = ():AppThunkType => (dispatch:Dispatch) => {
     dispatch(setAppStatus("loading"))
     todolistsApi.getTodoLists()
         .then((res) => {
@@ -72,8 +73,9 @@ export const getTodoListsTC = ():AppThunkType => (dispatch) => {
             dispatch(getTodoListsAC(todolists))
         })
         .catch((error) => {
-            handleServerNetworkError(dispatch, error)
             dispatch(setAppStatus("failed"))
+            handleServerNetworkError(dispatch, error)
+
         })
 }
 export const createTodoListTC = (title: string):AppThunkType => (dispatch) => {
@@ -84,10 +86,11 @@ export const createTodoListTC = (title: string):AppThunkType => (dispatch) => {
                 dispatch(setAppStatus("succeeded"))
                 dispatch(addTodolistAC(res.data.data.item))
             } else {
-                handleServerAppError(dispatch, res.data)
+
             }
         })
         .catch((error) => {
+            dispatch(setAppStatus("failed"))
             handleServerNetworkError(dispatch, error)
         })
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Navigate, Route, Routes} from "react-router-dom";
 
 import AppBar from '@mui/material/AppBar';
@@ -18,11 +18,17 @@ import {TodolistLists} from "./features/TodolistLists/TodolistLists";
 import {Login} from "./features/Login/Login";
 import {Error} from "./features/Error/Error";
 import {ErrorSnackbar} from "./components/errorSnackbar/ErrorSnackbar";
+import {useDispatch} from "react-redux";
+import {initializeAppTC} from "./features/Login/auth-reducer";
 
 
-function App() {
-
+function  App () {
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(initializeAppTC())
+    })
     return (
         <div className="App">
             <AppBar position="static">
@@ -52,4 +58,4 @@ function App() {
     );
 }
 
-export default App;
+export default React.memo(App) ;

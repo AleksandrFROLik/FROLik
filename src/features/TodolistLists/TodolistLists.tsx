@@ -26,16 +26,17 @@ import {Navigate} from "react-router-dom";
 
 
 export const TodolistLists = React.memo(() => {
-    const todolists = useAppSelector< Array<TodolistDomainType>>(state => state.todolists)
+    const todolists = useAppSelector<Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useAppSelector<TasksStateType>(state => state.tasks)
-    const isLoggedIn = useAppSelector<boolean>(state=>state.login.isLoggedIn)
+    const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(isLoggedIn){
-            dispatch(getTodoListsTC())
+        if (isLoggedIn) {
+             dispatch(getTodoListsTC())
         }
     }, [])
+
 
     const removeTask = useCallback(function (params: { taskId: string, todolistId: string }) {
         dispatch(deleteTaskTC(params))
@@ -70,8 +71,9 @@ export const TodolistLists = React.memo(() => {
         dispatch(createTodoListTC(title))
     }, [dispatch]);
 
-    if(!isLoggedIn) {
-        return <Navigate to={'login'}/>
+
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
     }
 
     return <>

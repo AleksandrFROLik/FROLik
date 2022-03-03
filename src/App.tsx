@@ -28,7 +28,8 @@ function  App () {
 
     useEffect(() => {
         dispatch(initializeAppTC())
-    })
+    },[])
+
     return (
         <div className="App">
             <AppBar position="static">

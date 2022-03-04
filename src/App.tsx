@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import {Navigate, Route, Routes} from "react-router-dom";
 
 import AppBar from '@mui/material/AppBar';
@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import LinearProgress from '@mui/material/LinearProgress';
 import Menu from '@mui/icons-material/Menu';
+import CircularProgress from "@mui/material/CircularProgress";
 
 import './App.css';
 
@@ -19,16 +20,30 @@ import {Login} from "./features/Login/Login";
 import {Error} from "./features/Error/Error";
 import {ErrorSnackbar} from "./components/errorSnackbar/ErrorSnackbar";
 import {useDispatch} from "react-redux";
-import {initializeAppTC} from "./features/Login/auth-reducer";
+import {initializeAppTC, logoutTC} from "./features/Login/auth-reducer";
 
 
-function  App () {
+function App() {
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
+    const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
+    const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(initializeAppTC())
-    },[])
+    }, [])
+
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
+
+
+    const logoutHandler = () => {
+        dispatch(logoutTC())
+    }
 
     return (
         <div className="App">
@@ -40,7 +55,7 @@ function  App () {
                     <Typography variant="h6">
                         News
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Logout</Button>}
                 </Toolbar>
             </AppBar>
 
@@ -59,4 +74,4 @@ function  App () {
     );
 }
 
-export default React.memo(App) ;
+export default React.memo(App);

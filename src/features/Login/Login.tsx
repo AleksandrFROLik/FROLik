@@ -55,7 +55,6 @@ export const Login = React.memo(() => {
         return <Navigate to={'/'}/>
     }
 
-
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit}>

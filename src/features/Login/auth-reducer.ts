@@ -1,5 +1,10 @@
 import {Dispatch} from 'redux'
-import {SetAppErrorActionType, setAppStatus, SetAppStatusActionType} from "../../state/app-reducer";
+import {
+    SetAppErrorActionType,
+    setAppStatus,
+    SetAppStatusActionType, setInitializedAC,
+    setInitializedActionType
+} from "../../state/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {authAPI, LoginParamsType} from "../../api/login-api";
 
@@ -56,6 +61,31 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
             handleServerNetworkError(dispatch, error)
 
         })
+        .finally(()=>{
+            dispatch(setInitializedAC(true))
+        })
+}
+
+export const logoutTC = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatus("loading"))
+    authAPI.logout()
+        .then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(setAppStatus("succeeded"))
+                dispatch(setIsLoggedInAC(false));
+            } else {
+                handleServerAppError(dispatch, res.data)
+            }
+
+        })
+        .catch((error) => {
+            dispatch(setAppStatus("failed"))
+            handleServerNetworkError(dispatch, error)
+
+        })
+        .finally(()=>{
+            dispatch(setInitializedAC(true))
+        })
 }
 
 
@@ -63,4 +93,4 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
 export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 // types
-type ActionsType = ReturnType<typeof setIsLoggedInAC> | SetAppStatusActionType | SetAppErrorActionType
+type ActionsType = ReturnType<typeof setIsLoggedInAC> | SetAppStatusActionType | SetAppErrorActionType | setInitializedActionType

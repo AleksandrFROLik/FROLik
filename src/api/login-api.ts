@@ -9,12 +9,7 @@ const instance = axios.create({
     }
 })
 
-export type LoginParamsType = {
-    email: string,
-    password: string,
-    rememberMe?: boolean,
-    captcha?: string
-}
+
 
 export const authAPI = {
     login(data: LoginParamsType) {
@@ -22,7 +17,17 @@ export const authAPI = {
     },
     me() {
         return instance.get<ResponseType<ResponseAuthMe>>('/auth/me')
+    },
+    logout() {
+        return instance.delete<ResponseType>('/auth/login')
     }
+}
+
+export type LoginParamsType = {
+    email: string,
+    password: string,
+    rememberMe?: boolean,
+    captcha?: string
 }
 
 export type ResponseAuthMe = {

@@ -75,6 +75,9 @@ export const TodolistLists = React.memo(() => {
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
 
     return <>
         <Grid container style={{padding: '20px'}}>
